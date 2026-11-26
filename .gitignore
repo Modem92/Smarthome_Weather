@@ -1,0 +1,54 @@
+# Allgemeine Entwicklungsdateien
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor- und Betriebssystemdateien
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python-Laufzeitdateien
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Lokale Umgebungsvariablen und Geheimnisse
+.env
+.env.*
+!.env.example
+
+# Vertrauliche Projektkonfiguration und öffentliche Kartencaches
+# (Git ignoriert sie; OneDrive synchronisiert sie weiterhin.)
+private/
+
+# Temporäre Dateien und Logs
+*.log
+*.tmp
+*.bak
+
+# Generated releases, complete confidential backups, test leftovers.
+/build/
+/archive/
+/transfer/
+/tests/tmp*/
+/tests/pi-*/
+/tests/widget-demo-*/
+/tests/weatherstation-*/
+/tests/mobile-tests-*/
+/tests/map-layout-*/
+/tests/international-visual-*/
+*.egg-info/
+/.wetterstation-session.json
+/.wetterstation-app.lock
+/.session-*
+/.pi-update-in-progress.json
+
+# Lokale Prozesssperren, Zertifikate und SSH-Schlüssel
+.Wetterstation-deploy.lock
+*.pem
+*.key
+*.pfx
+*.p12

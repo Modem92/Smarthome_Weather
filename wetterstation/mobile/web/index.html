@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light"><title>Wetterstation · Dein Dashboard</title>
+  <link rel="stylesheet" href="/style.css"><script src="/layout.js" defer></script><script src="/app.js" defer></script>
+</head>
+<body><main>
+<header><p class="eyebrow">WETTERSTATION · HEIMNETZ</p><h1>Dein Dashboard.</h1><p class="intro">Ordne die Widgets deiner Wetterstation an. Inhalte und Gestaltung bleiben erhalten.</p></header>
+<p id="status" class="notice" role="status" aria-live="polite">Verbindung wird geprüft …</p>
+<p id="demo-notice" class="notice" hidden>WIDGET-DEMO · Beispieldaten · Änderungen sind nur für diese Sitzung und verschwinden beim Beenden der Vorschau.</p>
+<section id="login-panel" hidden aria-labelledby="login-title"><h2 id="login-title">Mit der Wetterstation verbinden</h2>
+<p class="help">Für diesen Browser erscheint ein eigener Code auf dem Display. Die Anmeldung bleibt bis zum Abmelden oder Programmneustart gültig.</p>
+<p id="pair-state" role="status">Code wird angefordert …</p><button id="pair-retry" type="button" hidden>Neuen Code anfordern / erneut versuchen</button>
+<form id="login-form"><label for="code">Zugangscode</label><input id="code" type="password" autocomplete="off" maxlength="64" required placeholder="Code von der Wetterstation" disabled autocapitalize="characters" spellcheck="false"><button type="submit" disabled>Verbinden</button></form></section>
+<section id="widget-panel" hidden aria-labelledby="widget-title">
+<div class="section-top"><h2 id="widget-title">Deine Seiten</h2><span id="draft-state" role="status">Verbunden</span></div>
+<div id="page-tabs" class="page-tabs" role="group" aria-label="Seite auswählen"></div>
+<div class="page-controls"><label for="page-title">Seitenname</label><div class="add-row"><input id="page-title" maxlength="40"><button id="rename-page" class="secondary" type="button">Umbenennen</button></div>
+<div class="page-tools"><button id="page-earlier" type="button" class="secondary" aria-label="Seite nach vorne">← Seite</button><button id="page-later" type="button" class="secondary" aria-label="Seite nach hinten">Seite →</button><button id="add-page" type="button" class="secondary">+ Seite</button><button id="remove-page" type="button" class="secondary danger">Entfernen</button></div></div>
+<p id="preview-label" class="preview-label">DEIN DISPLAY · 1024 × 600</p>
+<div id="board-scroll"><div id="widget-board" aria-label="Maßstabsgetreue Widget-Anordnung"></div></div>
+<p class="help">Widget antippen oder ziehen. Die Ecke unten rechts verändert die Größe. Änderungen erscheinen direkt auf der Wetterstation.</p>
+<div class="edit-tools"><button id="undo-layout" type="button" class="secondary">↶ Rückgängig</button><button id="compact-layout" type="button" class="secondary">Automatisch anordnen</button></div>
+<div class="add-row"><label class="sr-only" for="widget-type">Widget-Typ</label><select id="widget-type"></select><button id="add-widget" type="button">+ Widget</button></div>
+<div id="transfer-panel" class="transfer-panel" hidden role="status"><h3>Auf dieser Seite ist kein Platz.</h3><p class="help">Die bisherige Anordnung bleibt erhalten. Wähle eine andere Seite für dieses Widget.</p><label for="transfer-target">Zielseite</label><select id="transfer-target"></select><div class="add-row"><button id="transfer-widget" type="button">Dorthin verschieben</button><button id="cancel-transfer" type="button" class="secondary">Abbrechen</button></div></div>
+<div id="widget-editor" hidden><h3 id="selected-title">Widget</h3><p class="help">Position</p><div class="move-row" aria-label="Widget verschieben"><button type="button" data-move="left" aria-label="Nach links">←</button><button type="button" data-move="up" aria-label="Nach oben">↑</button><button type="button" data-move="down" aria-label="Nach unten">↓</button><button type="button" data-move="right" aria-label="Nach rechts">→</button></div>
+<label for="widget-width">Breite <output id="width-value"></output></label><input id="widget-width" type="range" min="3" max="12" step="1">
+<label for="widget-height">Höhe <output id="height-value"></output></label><input id="widget-height" type="range" min="2" max="8" step="1">
+<fieldset id="field-options"><legend>Sichtbare Inhalte</legend></fieldset><p class="help">Inhalte, Farben und Schriften bleiben erhalten. Gestaltung erfolgt im PC-Designer.</p>
+<label for="widget-page">Widget auf eine andere Seite verschieben</label><div class="add-row"><select id="widget-page"></select><button id="move-widget-page" type="button" class="secondary">Verschieben</button></div>
+<button id="remove-widget" type="button" class="secondary danger">Widget entfernen</button></div>
+<div class="recovery"><button id="retry-layout" hidden type="button">Erneut verbinden / speichern</button><button id="reload-layout" type="button" class="secondary">Gespeicherten Stand neu laden</button></div>
+<p class="help">Jede Seite passt vollständig auf das Display. Die Seitenwahl hier zeigt dieselbe Seite am Gerät. Rückgängig merkt sich die letzten 20 Änderungen dieser Sitzung.</p>
+</section>
+<section id="settings-panel" hidden aria-labelledby="settings-title"><div class="section-top"><h2 id="settings-title">Verbindung &amp; Ort</h2><button id="logout" type="button" class="secondary">Abmelden</button></div>
+<details><summary>Ort und Wetterschlüssel ändern</summary><form id="settings-form"><label for="location">Ort oder Postleitzahl</label><input id="location" type="text" maxlength="80" required autocomplete="off" placeholder="Zum Beispiel Wien oder SW1A 1AA"><label for="country">Land</label><input id="country" type="text" list="countries" required autocomplete="off" placeholder="Land suchen"><datalist id="countries"></datalist><p class="help">Deutschen Ländernamen suchen und auswählen. Der Ort wird nur in diesem Land gesucht.</p><label for="api-key">Neuer OpenWeather-Schlüssel</label><p id="key-state" class="key-state"></p><input id="api-key" type="password" maxlength="256" autocomplete="new-password" spellcheck="false" autocapitalize="none" placeholder="Leer lassen, um den Schlüssel zu behalten"><p class="help">Der gespeicherte Schlüssel wird nie angezeigt.</p><button type="submit">Einstellungen speichern</button></form><p class="storage-note">Ort, Schlüssel und Layout werden privat im Wetterstation-Projekt gespeichert. OneDrive synchronisiert die unverschlüsselten Einstellungen. Speichern prüft den Schlüssel nicht und startet keinen zusätzlichen Wetterabruf.</p></details></section>
+<footer>Lokale Verbindung · Anmeldung endet beim Abmelden oder Programmneustart</footer></main></body></html>

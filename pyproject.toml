@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wetterstation"
+version = "0.2.0"
+description = "Gemeinsame Windows- und Raspberry-Pi-Wetterstation"
+requires-python = ">=3.11"
+dependencies = ["Pillow>=10", "cryptography>=42", "tzdata>=2025.2"]
+
+[project.optional-dependencies]
+designer = ["PySide6-Essentials>=6.8,<7"]
+
+[project.scripts]
+wetterstation = "wetterstation.ui.app:main"
+
+[tool.setuptools.packages.find]
+include = ["wetterstation*", "tools*"]
+
+[tool.setuptools.package-data]
+"wetterstation.weather" = ["countries.json"]
+"wetterstation.mobile" = ["web/*.html", "web/*.css", "web/*.js"]
+"wetterstation.designer" = ["fonts/*.ttf", "fonts/LICENSE_DEJAVU", "icons/*.svg"]

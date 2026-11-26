@@ -1,0 +1,3 @@
+Pillow>=10
+cryptography>=42
+tzdata>=2025.2

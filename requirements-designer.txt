@@ -1,0 +1,2 @@
+# PC editor only. Pi runtime dependencies remain in requirements.txt.
+PySide6-Essentials>=6.8,<7
