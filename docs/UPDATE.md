@@ -1,104 +1,104 @@
-# Pi aktualisieren
+# Update the Pi
 
-## Einmalige Einrichtung
+## One-time setup
 
-1. PC und Pi müssen im Heimnetz sein; am Pi muss SSH eingeschaltet sein.
-2. `windows/SSH einmalig einrichten.cmd` starten. Die Einrichtung fragt gegebenenfalls
-   nach Windows-Administratorfreigabe für den OpenSSH-Schlüsseldienst.
-3. Eine eigene Schlüsselpassphrase eingeben; anschließend gegebenenfalls einmal das
-   Pi-Passwort im sichtbaren OpenSSH-Dialog eingeben. Beides niemals in den Chat kopieren.
-4. Die Einrichtung prüft danach ausdrücklich eine Anmeldung ohne Passwortdialog.
+1. The PC and the Pi must be on the home network; SSH must be enabled on the Pi.
+2. Run `windows/Set up SSH once.cmd`. If needed, the setup asks for Windows administrator
+   approval for the OpenSSH key service.
+3. Enter your own key passphrase; then, if needed, enter the Pi password once in the visible
+   OpenSSH dialog. Never paste either into the chat.
+4. The setup then explicitly verifies a login without a password dialog.
 
-Bei einem abgebrochenen Verbindungsversuch denselben Starter erneut aufrufen.
-Ein vollständig vorhandenes Schlüsselpaar wird wiederverwendet; dieselbe Passphrase
-verwenden. Der frühere Bash-Syntaxfehler bei `base64.b64decode` wurde behoben: Das
-Registrierungsskript wird nun über SSH-stdin übertragen, ohne verschachtelte
-Anführungszeichen. Andere Pi-Schlüssel bleiben erhalten; Wiederholungen legen
-keinen doppelten Eintrag für denselben Schlüssel an.
+If a connection attempt is aborted, run the same starter again.
+A complete existing key pair is reused; use the same passphrase. The earlier bash
+syntax error with `base64.b64decode` has been fixed: the registration script is now
+transferred via SSH stdin, without nested quotation marks. Other Pi keys are kept;
+repeated runs do not add a duplicate entry for the same key.
 
-Der eigene Ed25519-Schlüssel liegt unter `%USERPROFILE%/.ssh/`, außerhalb von OneDrive.
-Der private Schlüssel bleibt passphrasengeschützt und auf den Windows-Benutzer beschränkt.
-Der Windows-Schlüsseldienst speichert die Anmeldefähigkeit für dieses Windows-Konto.
-Auf dem Pi wird nur der öffentliche Schlüssel ergänzt; andere Schlüssel bleiben erhalten.
-Die Option `restrict` sperrt Weiterleitungen und interaktive Terminals für diesen Schlüssel,
-erlaubt aber die für das Update nötigen Befehle und Dateiübertragungen im Benutzerkonto.
+The dedicated Ed25519 key is stored under `%USERPROFILE%/.ssh/`, outside OneDrive.
+The private key stays passphrase-protected and restricted to the Windows user.
+The Windows key service stores the ability to log in for this Windows account.
+Only the public key is appended on the Pi; other keys are kept.
+The `restrict` option blocks forwarding and interactive terminals for this key,
+but allows the commands and file transfers in the user account that the update needs.
 
-Eine bereits bekannte SSH-Geräteidentität ist Voraussetzung. Bei geänderter Identität
-bricht die Einrichtung ab; sie akzeptiert und ersetzt keinen Hostschlüssel automatisch.
-Das Passwort wird nicht gespeichert. Zielangaben stehen in `private/pi-update.json`.
-Beim ersten Aufruf den Hostnamen oder die IPv4-Adresse des Raspberry Pi eingeben.
-Der Updater erwartet das Pi-Konto `pi` und den Programmordner
-`~/wetterstation/Wetterstation`. Bei einer geänderten Adresse das Feld `host`
-anpassen und die bekannte Geräteidentität erneut prüfen. Die historischen CLI-
-Transferwerkzeuge verwenden den lokalen SSH-Hostalias `wetterstation-pi`.
+A known SSH device identity is a prerequisite. If the identity has changed, the setup
+aborts; it does not automatically accept and replace a host key.
+The password is not stored. Target settings are in `private/pi-update.json`.
+On the first run, enter the hostname or IPv4 address of the Raspberry Pi.
+The updater expects the Pi account `pi` and the program folder
+`~/wetterstation/Wetterstation`. If the address changes, adjust the `host` field
+and verify the known device identity again. The historical CLI transfer tools
+use the local SSH host alias `wetterstation-pi`.
 
-Beim ersten Update muss die ältere Pi-Anwendung einmal von Hand geschlossen werden.
-Sie unterstützt die neue geordnete Fernbeendigung noch nicht. Das Update startet eine
-vorher geschlossene Anwendung nicht; danach einmal das vorhandene Pi-Desktop-Symbol nutzen.
+For the first update, the older Pi application must be closed by hand once.
+It does not yet support the new orderly remote shutdown. The update does not start an
+application that was closed beforehand; afterwards, use the existing Pi desktop icon once.
 
-## Künftige Updates
+## Future updates
 
-`windows/Pi aktualisieren.cmd` doppelklicken. Das Fenster zeigt den Fortschritt.
-Während der Arbeit steht ausdrücklich „Update läuft“ im Fenster. Nach Erfolg
-erscheinen „Update abgeschlossen“, ein vollständig gefüllter grüner Balken und
-„Fertig. Du kannst dieses Fenster jetzt schließen“. Bei Fehlern steht stattdessen
-rot „Update mit Fehler beendet“ mit dem konkreten Hinweis und ohne grünen Balken.
-„Fenster schließen“ wird nach jedem Endzustand freigegeben. Sicherungspfad und
-Programm-Laufzustand stehen unterhalb des Abschlusshinweises.
-Eine zweite Aktualisierung desselben Arbeitsordners wird gesperrt. Der Updater hat
-weder Autostart noch Zeitplan; nur der separat eingerichtete Schlüsseldienst startet mit Windows.
+Double-click `windows/Update Pi.cmd`. The window shows the progress.
+While it works, the window explicitly says "Update läuft" (update in progress). On success,
+"Update abgeschlossen" (update completed), a fully filled green bar and
+"Fertig. Du kannst dieses Fenster jetzt schließen" (done, you can close this window now)
+appear. On errors, instead, "Update mit Fehler beendet" (update finished with an error)
+appears in red with the specific hint and without a green bar.
+"Fenster schließen" (close window) is enabled after every final state. The backup path and
+the program run state are shown below the completion notice.
+A second update of the same working folder is blocked. The updater has
+neither autostart nor a schedule; only the separately set-up key service starts with Windows.
 
-Es wird eine getrennte Kopie der aktuellen Programm- und Testdateien angelegt, ohne
-private Daten. Änderungen während des Kopierens führen zum Abbruch. Änderungen nach
-dem Kopieren gehören erst zum nächsten Update. Die Offline-Tests prüfen diese Kopie;
-derselbe Stand wird paketiert und übertragen. Der Bericht liegt unter
-`build/reports/last-update-tests.txt`, das geprüfte Paket unter `build/pi/`.
+A separate copy of the current program and test files is created, without
+private data. Changes during copying cause an abort. Changes after
+copying belong to the next update. The offline tests check this copy;
+the same state is packaged and transferred. The report is at
+`build/reports/last-update-tests.txt`, the checked package under `build/pi/`.
 
-Vor dem Beenden der Anzeige werden Ziel, Bibliotheken, Speicher und Programmidentität
-geprüft und sämtliche benötigten Dateien übertragen. Nur die eindeutig identifizierte
-Wetterstation wird geordnet beendet. Kein erzwungenes Beenden bei Zeitüberschreitung.
-Es folgen Sicherung, Installation, Prüfsummenvergleich und Offline-Prüfung auf dem Pi.
-Ort, Land, API-Schlüssel, Zertifikate, Caches, Gerätekennung, Zähler und Pi-Widget-Layout
-werden nicht vom PC importiert oder zurückgesetzt.
+Before the display is closed, the target, libraries, memory and program identity
+are checked and all required files are transferred. Only the clearly identified
+weather station is shut down in an orderly way. No forced termination on timeout.
+Backup, installation, checksum comparison and offline check on the Pi follow.
+Location, country, API key, certificates, caches, device ID, counters and the Pi widget layout
+are not imported from the PC or reset.
 
-Eine zuvor laufende Anwendung startet im bisherigen Modus und in derselben
-Desktopsitzung wieder. Der neue Prozess muss seine Bereitschaft bestätigen.
-Dies bestätigt den Programmstart, nicht den Erfolg externer Wetterdienste.
-Ein Livestart kann echte Wetterabrufe auslösen; eine zuvor geschlossene Anwendung bleibt geschlossen.
-Handy-Sitzungen enden durch den Programmneustart; Browser melden sich mit einem neuen Displaycode an.
+A previously running application restarts in its previous mode and in the same
+desktop session. The new process must confirm that it is ready.
+This confirms the program start, not the success of external weather services.
+A live start can trigger real weather requests; a previously closed application stays closed.
+Phone sessions end with the program restart; browsers sign in again with a new display code.
 
-## Fehler und Wiederherstellung
+## Errors and recovery
 
-Bei Installations- oder Offline-Prüffehlern stellt der Installer die vorherigen
-Programmdateien wieder her. Nach einem fehlgeschlagenen Update wird nichts automatisch
-gestartet. Bei Wiederstartfehlern bleibt die neue, geprüfte Version installiert; das
-Fenster meldet ausdrücklich, dass der Start nicht bestätigt werden konnte.
+If installation or offline check fails, the installer restores the previous
+program files. After a failed update, nothing is started automatically. If the
+restart fails, the new, checked version stays installed; the
+window explicitly reports that the start could not be confirmed.
 
-Bei Verbindungsabbruch während der Installation ist der Zustand zunächst unbekannt.
-Am Pi nachsehen, bevor ein weiterer Versuch gestartet wird. Die Startsperre
-`.pi-update-in-progress.json` niemals einfach löschen. Sie nennt die Sicherung.
+If the connection drops during installation, the state is initially unknown.
+Check on the Pi before starting another attempt. Never simply delete the start lock
+`.pi-update-in-progress.json`. It names the backup.
 
-Sicherungen liegen außerhalb des Programmordners unter
-`~/wetterstation/Wetterstation-Backups/<Zeitstempel>/installation/`.
-Sie enthalten vertrauliche Pi-Daten und gehören nicht auf GitHub.
+Backups are stored outside the program folder under
+`~/wetterstation/Wetterstation-Backups/<timestamp>/installation/`.
+They contain confidential Pi data and do not belong on GitHub.
 
-Auf dem Pi mit dem konkreten Sicherungspfad:
+On the Pi, with the specific backup path:
 
 ```sh
 python3 pi_update.py restore --target "$HOME/wetterstation/Wetterstation" --backup "KONKRETER_SICHERUNGSPFAD"
 ```
 
-Falls das Programmwerkzeug beschädigt ist, das standalone `update.py` aus dem passenden
-Unterordner in `~/wetterstation/.Wetterstation-update-staging/` verwenden.
-Die Wiederherstellung setzt keine Zähler, Zertifikate oder neueren privaten Änderungen zurück.
-Bei Rückkehr zu einem Stand vor der Umordnung werden auch die gesicherten alten
-Programmdateien wiederhergestellt. Alte Sicherungen von früheren Updater-Versionen
-werden mit dem jeweils dazugehörigen damaligen Stand des Werkzeugs wiederhergestellt.
+If the program tool is damaged, use the standalone `update.py` from the matching
+subfolder in `~/wetterstation/.Wetterstation-update-staging/`.
+The restore does not reset counters, certificates or newer private changes.
+When returning to a state from before the reorganization, the backed-up old
+program files are restored as well. Old backups from earlier updater versions
+are restored with the version of the tool that belonged to them at the time.
 
-Am 28.10.2026 wurden Schlüsselanmeldung, gesicherte Übernahme, geordnetes Beenden
-und Wiederstart in der tatsächlichen Pi-Desktopsitzung mit der Widget-Demo geprüft.
-Display und Handy-Anordnung wurden anschließend vom Nutzer als flüssig und
-funktionierend bestätigt. Ein fehlendes optionales ImageTk wurde ohne
-Paketinstallation durch native Tk-PNG-Bildübernahme abgefangen; Details und
-Messbelege unter [OPTIMIZATION.md](OPTIMIZATION.md). Weiterhin nicht durch diese
-Demo-Abnahme bestätigt: Anmeldung nach Windows-Neustart und Wiederstart im Livebetrieb.
+On 28 Oct 2026, key login, secured takeover, orderly shutdown
+and restart were verified in the actual Pi desktop session with the widget demo.
+The display and phone arrangement were then confirmed by the user as smooth and
+working. A missing optional ImageTk was handled without
+package installation by native Tk PNG image transfer; details and
+measurements in [OPTIMIZATION.md](OPTIMIZATION.md). Still not confirmed by this
+demo acceptance: login after a Windows restart and restart in live operation.

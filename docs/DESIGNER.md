@@ -1,221 +1,221 @@
-# Wetterstation-Designer
+# Weather station designer
 
-## Auftrag vom 27.10.2026
+## Assignment of 27.10.2026
 
-Grundlage war der im Chat abgestimmte Plan „Wetterstation-Designer mit
-PC-Gestaltung und Handy-Anordnung“ samt grafischer Erweiterung. Beide sind
-umgesetzt; die Architekturentscheidungen stehen in `ai/DECISIONS.md`, der
-ursprüngliche Wortlaut in der Git-Historie (Commit `bbc838e`).
-Die Umsetzung erfolgt lokal und offline;
-neue reale Wetterabrufe und die erste Pi-Übernahme sind gesondert abzunehmen.
+The basis was the plan agreed in chat, "Weather station designer with PC design
+and phone arrangement", including its graphical extension. Both are
+implemented; the architecture decisions are in `ai/DECISIONS.md`, and the
+original wording is in the Git history (commit `bbc838e`).
+The implementation is local and offline;
+new real weather requests and the first transfer to the Pi must be accepted separately.
 
-## Abnahmeliste
+## Acceptance checklist
 
-- [x] PC: zwei Tabs, gemeinsamer Entwurf, Auswahl, Mehrfachbearbeitung, Tastatur,
-  Kontextmenüs, 100 Undo-/Redo-Schritte, anpassbare Seitenleisten, hell/dunkel.
-- [x] Raster 1–128 je Achse, genaue Positionen/Größen, Sperren, keine Überlappung,
-  verlustfreie Rastervorschläge und ausdrücklich automatische Anordnung.
-- [x] Profile 1024×600, 800×480, eigene Maße, getrennte Quer-/Hochformatvarianten,
-  Ausgabe 0/90/180/270 Grad.
-- [x] Stile: Flächen/Bilder/Verläufe, Transparenz, Rahmen/Seiten/Strichelung,
-  einzelne Eckradien einschließlich null, Schatten, Abstände, Ausrichtungen.
-- [x] Inhalte: eigene Texte, Bilder, Formen, Datenbindungen, freie Position,
-  Rotation/Ebenen, Schriftimport, Formate, Einheiten, globale Vererbung/Overrides.
-- [x] Vorlagen/Stile/Raster speichern, übertragen, zurücksetzen; Bilder/Schriften
-  im schlüsselfreien Import-/Exportpaket.
-- [x] Zusätzliche Live-Anbindung mit ausdrücklicher Geräteaktivierung: Minuten-/
-  15-Minutenwerte im normalen Wetterzyklus; Transport und Schalter offline geprüft.
-- [x] Zeitreihen-Abnahme mit simulierten Antworten: Minuten-/15-Minuten-/Stunden-/Tageswerte, freie Auswahl,
-  Karten/Tabelle/Linie/Balken, Lücken/DST, keine Interpolation.
-- [x] Offline-Budgetprüfung für Zusatzabrufe: reguläre 3/5-Minuten-Abrufe erhalten, beide Budgettage,
-  24 Reserveanfragen, Pagination begrenzen, geteilte Caches, kein HTTP beim Gestalten.
-- [x] Handy: vorhandene Funktionen, variables aktives Raster, gezielte Änderungen,
-  Erhalt aller Details, Versionskonflikte, direkte Displaybestätigung.
-- [x] Entwürfe automatisch, Crash-Wiederherstellung, explizit anwenden, alte
-  Layouts erhalten, Settings-/Schlüssel-/Budgetschutz.
-- [x] Pi-Übernahme isoliert simuliert: vorhandenes SSH, Kompatibilität, Staging/Assets, Sicherung, atomarer
-  Wechsel, Bestätigung, Konflikte/Verbindungsabbruch, geschlossene App bleibt zu.
-- [x] Offline-Tests und visuelle/Bedienabnahme einschließlich 100/150/200 %.
+- [x] PC: two tabs, shared draft, selection, multi-editing, keyboard,
+  context menus, 100 undo/redo steps, adjustable sidebars, light/dark.
+- [x] Grid 1–128 per axis, exact positions/sizes, locking, no overlap,
+  lossless grid suggestions and an explicitly automatic arrangement.
+- [x] Profiles 1024×600, 800×480, custom dimensions, separate landscape/portrait
+  variants, output 0/90/180/270 degrees.
+- [x] Styles: fills/images/gradients, transparency, borders/sides/dashing,
+  individual corner radii including zero, shadows, spacing, alignments.
+- [x] Content: custom texts, images, shapes, data bindings, free positioning,
+  rotation/layers, font import, formats, units, global inheritance/overrides.
+- [x] Save, transfer and reset templates/styles/grids; images/fonts
+  in the key-free import/export package.
+- [x] Additional live connection with explicit device activation: minute/
+  15-minute values within the normal weather cycle; transport and switches verified offline.
+- [x] Time-series acceptance with simulated responses: minute/15-minute/hourly/daily values, free selection,
+  cards/table/line/bars, gaps/DST, no interpolation.
+- [x] Offline budget check for additional requests: regular 3/5-minute requests preserved, both budget days,
+  24 reserve requests, pagination limits, shared caches, no HTTP while designing.
+- [x] Phone: existing functions, variable active grid, targeted changes,
+  preservation of all details, version conflicts, direct display confirmation.
+- [x] Drafts automatic, crash recovery, explicit apply, old
+  layouts preserved, protection of settings/keys/budget.
+- [x] Pi transfer simulated in isolation: existing SSH, compatibility, staging/assets, backup, atomic
+  switch, confirmation, conflicts/connection loss, a closed app stays closed.
+- [x] Offline tests and visual/usability acceptance including 100/150/200 %.
 
-## Grenzen
+## Limits
 
-Keine Hardwaretreiber, historischen Messwertarchive, neuen Konten, Veröffentlichung
-oder Änderung der bestehenden Ort-/Schlüsselverwaltung. Qt wird nur am PC benötigt.
+No hardware drivers, historical measurement archives, new accounts, publication
+or changes to the existing location/key management. Qt is only needed on the PC.
 
-## Arbeitsstand
+## Current status
 
-Der Konfigurator und die ausdrücklich freigegebene Live-Anbindung sind
-implementiert. Zusatzabrufe sind standardmäßig ausgeschaltet. Erst eine
-bestätigte Aktivierung am jeweiligen Gerät erlaubt sie im normalen Livebetrieb.
-Entwicklung und Abnahme verwenden ausschließlich simulierte Antworten;
-neue echte Wetterabrufe und die erste reale Pi-Übernahme stehen weiterhin aus.
+The configurator and the explicitly approved live connection are
+implemented. Additional requests are switched off by default. Only a
+confirmed activation on the respective device allows them in normal live operation.
+Development and acceptance use simulated responses exclusively;
+new real weather requests and the first real transfer to the Pi are still outstanding.
 
-## Start und Bedienung
+## Starting and using it
 
-`windows/Wetterstation gestalten.cmd` doppelklicken. Der Konfigurator arbeitet
-mit klar gekennzeichneten Beispieldaten und startet keinen Handyserver oder
-Wetterabruf. Er öffnet die aktive Gestaltung als Entwurf oder stellt den zuletzt
-automatisch gesicherten Entwurf wieder her. Die aktive Anzeige ändert sich erst
-über **Anwenden → Am PC anwenden** beziehungsweise **An Pi übertragen**.
+Double-click `windows/Design weather station.cmd`. The configurator works
+with clearly marked sample data and starts no phone server or
+weather request. It opens the active design as a draft or restores the most recently
+auto-saved draft. The active display only changes via **Anwenden → Am PC anwenden**
+(Apply → Apply on this PC) or **An Pi übertragen** (Transfer to Pi).
 
-1. **Widgets anordnen:** Seite wählen, Widget ziehen oder Breite/Höhe und Zelle
-   rechts eingeben. Rastergröße ändern und den Vorschlag prüfen. Rote Umrisse
-   markieren Überlappungen; diese müssen vor dem Anwenden behoben werden. Die
-   acht Anfasser am ausgewählten Widget verändern seine Größe an Ecken und Seiten.
-2. **Erweiterte Gestaltung:** Widget oder Inhalt auswählen. Oben rechts zwischen
-   Anzeige, Seite, Widget und Inhalt wechseln. Einstellungen suchen, Gruppen
-   aufklappen und Werte ändern. Blaue Eigenschaftsnamen markieren eigene Abweichungen;
-   der Rücksetzpfeil verwendet wieder die übergeordnete Vorgabe.
-3. **Inhalte direkt anordnen:** Titel, Werte, Bilder und Formen anklicken und ziehen;
-   über die acht Anfasser ihre Größe ändern. Das ganze Widget wird in diesem Tab
-   über seinen Rahmen bewegt. Ein gewöhnliches Wetterwidget behält seinen Typ
-   und seine Datenbindungen. Karte, Diagramm oder Tabelle bleiben ein Inhaltsblock.
-   Die Inhaltsliste links hilft bei überlagerten Elementen. Strg+Klick wählt mehrere
-   Inhalte desselben Widgets; „Ausrichten“ bietet Textbündigkeit sowie davon getrennt
-   Positionierung und gleichmäßiges Verteilen von Inhaltsflächen.
-4. **Quer-/Hochformat:** Profil oben wählen. Die Anordnungen bleiben getrennt
-   erhalten. Die zusätzliche Ausgabedrehung berücksichtigt die Displaymontage;
-   sie ändert keine Betriebssystemeinstellung.
+1. **Widgets anordnen** (arrange widgets): Choose a page, drag a widget, or enter width/height and cell
+   on the right. Change the grid size and check the suggestion. Red outlines
+   mark overlaps; these must be fixed before applying. The
+   eight handles on the selected widget resize it at its corners and sides.
+2. **Erweiterte Gestaltung** (advanced design): Select a widget or content item. At the top right, switch between
+   display, page, widget and content. Search for settings, expand
+   groups and change values. Blue property names mark individual deviations;
+   the reset arrow reverts to the parent default.
+3. **Arrange content directly:** Click and drag titles, values, images and shapes;
+   resize them with the eight handles. In this tab the whole widget is moved
+   by its frame. An ordinary weather widget keeps its type
+   and its data bindings. A card, chart or table remains a content block.
+   The content list on the left helps with overlapping elements. Ctrl+click selects several
+   content items of the same widget; "Ausrichten" (align) offers text alignment as well as, separately,
+   positioning and even distribution of content areas.
+4. **Landscape/portrait:** Choose the profile at the top. The arrangements stay
+   separate. The additional output rotation accounts for how the display is mounted;
+   it does not change any operating system setting.
 
-Unter **Innenraster** gilt ein gemeinsamer Zellabstand für alle Widgets, zunächst
-8 logische Displaypixel, einstellbar von 1 bis 128. Der Ursprung liegt innerhalb
-der Widget-Innenabstände. Anzeige und Einrasten sind getrennt schaltbar; **Alt**
-setzt das Einrasten während des Ziehens aus. Vorhandene Inhalte werden durch eine
-Rasteränderung nicht verschoben. Das Innenraster erscheint ausschließlich im Editor.
-Beim Vergrößern eines Widgets wachsen Inhaltspositionen und -flächen proportional
-mit; Schrift folgt ihrer bisherigen automatischen Größenanpassung.
-Die Positionssperre schützt den äußeren Widgetrahmen; seine Inhalte bleiben
-weiterhin gestaltbar.
+Under **Innenraster** (inner grid) a shared cell spacing applies to all widgets, initially
+8 logical display pixels, adjustable from 1 to 128. The origin lies within
+the widget padding. Display and snapping can be switched separately; **Alt**
+suspends snapping while dragging. Existing content is not moved by
+a grid change. The inner grid appears only in the editor.
+When a widget is enlarged, content positions and areas grow proportionally;
+text follows its existing automatic size adjustment.
+The position lock protects the outer widget frame; its content
+remains editable.
 
-Während einer Bewegung zeigt die Vorschau das Ergebnis samt Hilfslinien und
-Positions-/Größenangabe. **Escape** verwirft die laufende Bewegung. Erst beim
-Loslassen entsteht ein gemeinsamer Rückgängig-Schritt; ungültige Widgetpositionen
-behalten den letzten gültigen Stand. Zahlenfelder werden nach der Bewegung aktualisiert.
+During a movement the preview shows the result together with guide lines and
+position/size readout. **Escape** discards the movement in progress. Only on
+release is a single combined undo step created; invalid widget positions
+keep the last valid state. Number fields are updated after the movement.
 
-Grafische Inhaltsänderungen und Innenrastereinstellungen verwenden **Format 4**.
-Formate 2 und 3 bleiben lesbar; ein bloßes Öffnen oder Auswählen verändert weder
-den aktiven Stand noch dessen Darstellung. Neue Format-4-Pakete benötigen den
-aktuellen Programmstand auf dem Pi; „Stand prüfen“ weist ältere Programme ab.
-Die Oberfläche nutzt helle/dunkle Flächen, Vektorsymbole und unter Windows bevorzugt
-Segoe UI. Die Schriften der gestalteten Wetteranzeige sind davon unabhängig.
+Graphical content changes and inner grid settings use **format 4**.
+Formats 2 and 3 remain readable; merely opening or selecting does not change
+the active state or how it is displayed. New format 4 packages require
+the current program version on the Pi; "Stand prüfen" (check state) rejects older programs.
+The interface uses light/dark surfaces, vector icons and, on Windows, preferably
+Segoe UI. The fonts of the designed weather display are independent of this.
 
-Strg+Z/Strg+Y: Rückgängig/Wiederholen; Strg+C/Strg+V: Widgets kopieren/einfügen;
-Strg+D: duplizieren. Strg+Klick wählt mehrere Widgets. Pfeiltasten verschieben
-die Auswahl um eine Zelle, Umschalt+Pfeiltaste um fünf. Entwurf und Historie sind
-für beide Tabs gemeinsam. Die Anordnung am Handy bewahrt die PC-Gestaltung
-einschließlich beim Rückgängigmachen gelöschter Widgets.
+Ctrl+Z/Ctrl+Y: undo/redo; Ctrl+C/Ctrl+V: copy/paste widgets;
+Ctrl+D: duplicate. Ctrl+click selects several widgets. Arrow keys move
+the selection by one cell, Shift+arrow by five. Draft and history are
+shared by both tabs. Arranging on the phone preserves the PC design,
+including when undoing deleted widgets.
 
-Im Menü **Entwurf**: Bilder/TTF-/OTF-Schriften importieren, Gestaltungspakete
-mit Dateien exportieren/importieren, PNG-Vorschau und frühere Sicherung laden.
-Im Menü **Vorlagen**: vorgegebene Gestaltung sowie eigene Stile, Widgets und Raster.
-Im Menü **Ansicht**: Raster, Seitenleisten, Werkzeugfarbe und Prüfszenarien.
+In the **Entwurf** (draft) menu: import images/TTF/OTF fonts, export/import design packages
+with files, load PNG preview and an earlier backup.
+In the **Vorlagen** (templates) menu: predefined design as well as custom styles, widgets and grids.
+In the **Ansicht** (view) menu: grid, sidebars, tool color and test scenarios.
 
-## Zusatzdaten ausdrücklich aktivieren
+## Explicitly activating additional data
 
-Zeitreihen zuerst gestalten und **Am PC anwenden** wählen. Unter **Datenquellen →
-Zusatzabrufe auf diesem PC aktivieren** den Bedarf und die Tageslast prüfen und
-bestätigen. Die nächste reguläre Live-Aktualisierung kann dann die Zusatzquellen
-abrufen. Der Konfigurator selbst bleibt bei Beispieldaten und startet weder die
-Anzeige noch einen Wetterabruf. **Zusatzabrufe auf diesem PC ausschalten**
-widerruft diese Freigabe. Eine bereits laufende HTTP-Anfrage kann noch enden;
-vor jeder Folgeseite wird die Freigabe erneut geprüft.
+First design the time series and choose **Am PC anwenden** (apply on this PC). Under **Datenquellen →
+Zusatzabrufe auf diesem PC aktivieren** (data sources → enable additional requests on this PC), check the demand and the daily load and
+confirm. The next regular live update can then
+request the additional sources. The configurator itself stays with sample data and starts neither
+the display nor a weather request. **Zusatzabrufe auf diesem PC ausschalten**
+(disable additional requests on this PC) revokes this approval. An HTTP request that is already running may still finish;
+before every follow-up page the approval is checked again.
 
-Am Pi im Übertragungsdialog zuerst **Stand prüfen** und anschließend
-**Zusatzabrufe am Pi aktivieren** wählen. Bestätigt wird der geprüfte aktive
-Pi-Bedarf. **Zusatzabrufe am Pi ausschalten** beendet die Freigabe. Eine reine
-Gestaltungsübertragung aktiviert keine Zusatzdaten; geschlossene Programme bleiben
-geschlossen. Auf dem echten Pi wurde dieser Ablauf noch nicht ausgeführt.
+On the Pi, in the transfer dialog, first choose **Stand prüfen** and then
+**Zusatzabrufe am Pi aktivieren** (enable additional requests on the Pi). What is confirmed is the checked, active
+Pi demand. **Zusatzabrufe am Pi ausschalten** (disable additional requests on the Pi) ends the approval. A pure
+design transfer does not activate additional data; closed programs stay
+closed. This procedure has not yet been run on the real Pi.
 
-Die Gerätefreigabe liegt getrennt von der Gestaltung und enthält keine Schlüssel.
-Ein Export oder eine OneDrive-Kopie aktiviert kein anderes Gerät. Änderungen am
-Abrufbedarf verlangen eine erneute Aktivierung; Farben, Rahmen und Positionen
-verändern die Freigabe nicht. Stunden-/Tagesreihen verwenden die vollständigen
-ohnehin geladenen ersten Antwortseiten. Weitere Seiten und Minuten-/Viertelstunden-
-werte teilen sich Quellen-Caches und Abrufintervalle. Fehlende Werte bleiben Lücken.
-Die regulären drei Anfragen alle fünf Minuten, beide geschützten Budgettage und
-24 Reserveanfragen haben Vorrang. Hinweise im Widget kennzeichnen ausgeschaltete
-oder unvollständige Zusatzdaten.
+The device approval is stored separately from the design and contains no keys.
+An export or a OneDrive copy does not activate any other device. Changes to the
+request demand require re-activation; colors, borders and positions
+do not affect the approval. Hourly/daily series use the complete first
+response pages that are loaded anyway. Further pages and minute/quarter-hour
+values share source caches and request intervals. Missing values remain gaps.
+The regular three requests every five minutes, both protected budget days and
+24 reserve requests take priority. Notes in the widget mark switched-off
+or incomplete additional data.
 
-## Installation auf weiteren PCs
+## Installation on other PCs
 
-Nur der Konfigurator benötigt zusätzlich `requirements-designer.txt`
-(PySide6-Essentials). Der Starter verwendet die vorhandene Projekt-Pythonumgebung;
-fehlende Bibliotheken werden gemeldet und niemals automatisch installiert.
-Für diese lokale Entwicklung liegen die Qt-Bibliotheken isoliert unter
-`%USERPROFILE%/AppData/Local/Wetterstation/designer-runtime` (außerhalb OneDrive,
-siehe `tools/dev_paths.py`; `build/designer-runtime/` ist nur noch Rückfall).
-Dieser Ordner wird nicht in Pi-Pakete übernommen.
-Auf weiteren PCs die Zusatzbibliotheken ausdrücklich in der gewünschten lokalen
-Pythonumgebung installieren, vorzugsweise der bestehenden Umgebung unter
-`%LOCALAPPDATA%/Wetterstation/venv`. Die Anzeige auf dem Pi benötigt kein Qt.
+Only the configurator additionally needs `requirements-designer.txt`
+(PySide6-Essentials). The starter uses the existing project Python environment;
+missing libraries are reported and never installed automatically.
+For this local development the Qt libraries are kept in isolation under
+`%USERPROFILE%/AppData/Local/Wetterstation/designer-runtime` (outside OneDrive,
+see `tools/dev_paths.py`; `build/designer-runtime/` is now only a fallback).
+This folder is not included in Pi packages.
+On other PCs, install the additional libraries explicitly in the desired local
+Python environment, preferably the existing one under
+`%LOCALAPPDATA%/Wetterstation/venv`. The display on the Pi does not need Qt.
 
-## Dateien und Schutz
+## Files and protection
 
-- `private/designer/draft.json`: automatisch gesicherter Entwurf und Ausgangsrevision.
-- `private/designer/assets/`: Bilder und Schriften, nach Inhaltsprüfsumme benannt.
-- `private/designer/backups/`: vor dem Ersetzen gesicherte Gestaltung.
-- `private/designer/phone-undo.json`: begrenzte Wiederherstellungsdaten für Handy-Undo.
-- `private/designer/timeline-activation.json`: getrennte, standardmäßig fehlende
-  Gerätefreigabe; kein Bestandteil von Gestaltungspaketen.
-- `private/designer/incoming/`: nachvollziehbare Pi-Übertragung mit Transaktionskennung.
-- `private/designer/transfer.json` und `transfer-packages/`: lokale Zuordnung und
-  unverändertes Paket für das Fortsetzen nach Schließen des Übertragungsdialogs.
+- `private/designer/draft.json`: auto-saved draft and base revision.
+- `private/designer/assets/`: images and fonts, named by content checksum.
+- `private/designer/backups/`: design backed up before being replaced.
+- `private/designer/phone-undo.json`: limited recovery data for phone undo.
+- `private/designer/timeline-activation.json`: separate device approval, absent
+  by default; not part of design packages.
+- `private/designer/incoming/`: traceable Pi transfer with transaction ID.
+- `private/designer/transfer.json` and `transfer-packages/`: local mapping and
+  unchanged package for resuming after the transfer dialog is closed.
 
-Gestaltungspakete enthalten ausschließlich das geprüfte Gestaltungsformat und
-benannte Medien. Der bestehende Schlüssel, Ort, Zertifikate und Zähler werden
-nicht exportiert oder ersetzt. Private Dateien können gemäß Projektentscheidung
-weiter unverschlüsselt über OneDrive synchronisiert werden.
+Design packages contain only the verified design format and
+named media. The existing key, location, certificates and counters
+are neither exported nor replaced. Private files may, per project decision,
+continue to be synchronized unencrypted via OneDrive.
 
-Die Pi-Übertragung prüft zuerst den Zielstand. Ein veraltetes Pi-Programm wird
-über den bisherigen manuellen Updater aktualisiert. Erst **Jetzt übertragen**
-ersetzt die Gestaltung nach Sicherung. Eine geschlossene Anzeige bleibt geschlossen;
-eine laufende Demo behält ihre temporären Einstellungen. Nach unklarer Verbindung
-**Stand prüfen** verwenden. Die vorige Gestaltung lässt sich im Übertragungsdialog
-wiederherstellen, ohne andere private Einstellungen zurückzusetzen.
+The Pi transfer first checks the target state. An outdated Pi program is updated
+via the existing manual updater. Only **Jetzt übertragen** (transfer now)
+replaces the design, after a backup. A closed display stays closed;
+a running demo keeps its temporary settings. After an unclear connection, use
+**Stand prüfen**. The previous design can be restored in the transfer dialog
+without resetting other private settings.
 
-Ein Upload landet zuerst in einer getrennten Datei. Erst nach vollständiger
-Prüfsumme wird er atomar für die Installation bereitgestellt. Nach erneutem Öffnen
-ordnet **Stand prüfen** dieselbe Übertragung wieder zu. **Übertragung fortsetzen**
-verwendet dasselbe gespeicherte Paket und dieselbe Kennung; eine bereits bestätigte
-Installation wird nicht wiederholt. **Neue Übertragung vorbereiten** beendet einen
-alten offenen Vorgang unter derselben Sperre wie die Installation und liest den
-Zielstand neu. Eine spätere Wiederholung des beendeten Vorgangs wird abgewiesen.
+An upload first lands in a separate file. Only after the full
+checksum is verified is it made available atomically for installation. After reopening,
+**Stand prüfen** matches the same transfer again. **Übertragung fortsetzen**
+(resume transfer) uses the same stored package and the same ID; an installation that has already been confirmed
+is not repeated. **Neue Übertragung vorbereiten** (prepare new transfer) ends an
+old open operation under the same lock as the installation and re-reads the
+target state. A later retry of the ended operation is rejected.
 
-## Lokale Prüfung
+## Local checks
 
 - `python tools/offline_tests.py --report build/checks/designer-all-tests-final.txt`
-- `python tests/designer_scale_check.py`: achtzehn Qt-Bedienprüfungen bei simuliertem
-  effektivem Pixelfaktor 1, 1.5 und 2; keine Änderung der Windows-Einstellungen.
-  Einschließlich aller acht Widget-/Inhaltsanfasser bei drei Zoomstufen, direkter
-  Auswahl, Alt/Escape, Mehrfachauswahl, Ausrichtung, ausstehenden Texteingaben und
-  echter Warnungsdialoge mit Weiterbearbeitung nach ungültiger Widgetgeometrie.
-- `python tests/widget_demo.py --design`, anschließend
-  `node tests/designer_phone_check.cjs`: isoliertes lokales HTTPS, Dummy-Schlüssel,
-  Handy-Größen 320/375, Tk-Übernahme und ausschließlich Anordnungsbefehle.
-  Mit `python tests/widget_demo.py --design --graphical` wird derselbe Browserablauf
-  einschließlich Erhalt verschobener Inhaltsblöcke mit Format 4 geprüft.
-- `python tools/designer_acceptance.py`: komplette Offline-Abnahme in eingefrorener
-  Quellkopie, anschließend Paketbau und bytegleiche Schriftprüfung desselben Stands.
+- `python tests/designer_scale_check.py`: eighteen Qt usability checks at a simulated
+  effective pixel factor of 1, 1.5 and 2; no changes to Windows settings.
+  Including all eight widget/content handles at three zoom levels, direct
+  selection, Alt/Escape, multi-selection, alignment, pending text input and
+  real warning dialogs with continued editing after invalid widget geometry.
+- `python tests/widget_demo.py --design`, then
+  `node tests/designer_phone_check.cjs`: isolated local HTTPS, dummy key,
+  phone sizes 320/375, Tk takeover and arrangement commands only.
+  With `python tests/widget_demo.py --design --graphical` the same browser run is checked,
+  including preservation of moved content blocks with format 4.
+- `python tools/designer_acceptance.py`: complete offline acceptance in a frozen
+  source copy, followed by package build and a byte-identical font check of the same state.
 
-Belege unter `build/checks/`. Eine reale Pi-Übernahme oder neue echte Wetterabrufe
-sind aus diesen Prüfungen nicht abzuleiten.
+Evidence is under `build/checks/`. A real Pi transfer or new real weather requests
+cannot be inferred from these checks.
 
-## Korrekturen vom 28.10.2026
+## Corrections of 28.10.2026
 
-Neue Rechtecke und Ellipsen erhalten sichtbare graue Flächen und Rahmen und werden
-sofort als Inhalt ausgewählt. Bestehende Formen verwenden wieder ihren geerbten Stil;
-explizite Transparenz bleibt erhalten. Rechts neben jedem Inhalt steht ein Minusknopf.
-Er entfernt nur diesen Inhalt ohne Rückfrage; Strg+Z stellt ihn wieder her. Geschützte
-Karten-/Zeitreihenblöcke behalten einen deaktivierten Knopf mit Erklärung.
-Das Mausrad verändert keine Auswahl-, Zahlen- oder Schiebefelder mehr. Im rechten
-Bereich scrollt es stattdessen die Eigenschaften, auch bei fokussierten Eingabefeldern.
+New rectangles and ellipses receive visible gray fills and borders and are
+immediately selected as content. Existing shapes use their inherited style again;
+explicit transparency is preserved. To the right of each content item there is a minus button.
+It removes only that content item without confirmation; Ctrl+Z restores it. Protected
+card/time-series blocks keep a disabled button with an explanation.
+The mouse wheel no longer changes selection, number or slider fields. In the right-hand
+area it scrolls the properties instead, even when input fields are focused.
 
 
-Das Seitenraster liegt hinter den Widgets und ist durch transparente Flächen sichtbar.
-Spalten und Zeilen werden nach Enter oder Verlassen des Feldes direkt im Entwurf
-übernommen; während des Tippens erfolgt keine Änderung. Eine Rastervorlage ändert
-beide Werte gemeinsam. „Auf alle Seiten dieser Variante“ bleibt beim Neuaufbau der
-Eigenschaften ausgewählt. Strg+Z nimmt die Rasteränderung zurück. Widgets werden
-proportional angepasst; Rundungen können markierte Überlappungen erzeugen.
-„Automatisch anordnen“ bleibt eine gesonderte Aktion. Die laufende Anzeige ändert
-sich erst nach ausdrücklicher Übernahme. Das Innenraster für Inhalte bleibt separat.
+The page grid lies behind the widgets and is visible through transparent areas.
+Columns and rows are applied directly to the draft after Enter or when leaving the field;
+nothing changes while typing. A grid template changes
+both values together. "Auf alle Seiten dieser Variante" (on all pages of this variant) stays selected when the
+properties are rebuilt. Ctrl+Z reverts the grid change. Widgets are
+scaled proportionally; rounding can produce marked overlaps.
+"Automatisch anordnen" (arrange automatically) remains a separate action. The running display only
+changes after explicit takeover. The inner grid for content remains separate.
