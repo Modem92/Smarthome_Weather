@@ -146,8 +146,8 @@ For this local development the Qt libraries are kept in isolation under
 see `tools/dev_paths.py`; `build/designer-runtime/` is now only a fallback).
 This folder is not included in Pi packages.
 On other PCs, install the additional libraries explicitly in the desired local
-Python environment, preferably the existing one under
-`%LOCALAPPDATA%/Wetterstation/venv`. The display on the Pi does not need Qt.
+Python environment, preferably `%LOCALAPPDATA%/Smarthome_Weather/venv`
+(older setups: `%LOCALAPPDATA%/Wetterstation/venv`). The display on the Pi does not need Qt.
 
 ## Files and protection
 

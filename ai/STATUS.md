@@ -4,7 +4,7 @@
 - Goal now: finish open live and device checks, then robustness.
 
 ## Nächste Schritte (next steps)
-1. Make the offline test suite run on this PC and get it green (issue #8). Python is currently missing on the Windows PC. Then add CI (#12, blocked by #8).
+1. Offline suite is green on Windows (389 tests, Python 3.15 in `%LOCALAPPDATA%/Smarthome_Weather/venv`). Still open in #8: the Linux/Xvfb anomalies; then CI (#12, blocked by #8).
 2. Approval-dependent acceptance: extra time series and design transfer (#1), live restart (#3), international live test (#4).
 3. Device checks: SSH after Windows restart (#2), desktop icon (#6), autostart/long-term operation (#5).
 4. Cleanup: Pi libraries vs. requirements.txt (#9), Pi target in the updater (#10), leftover doc references (#11), double-click crash on another PC (#7).

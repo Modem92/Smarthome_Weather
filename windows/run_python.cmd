@@ -2,7 +2,8 @@
 set "PYTHONUTF8=1"
 rem Resolve an installed runtime without embedding a personal account name.
 set "WETTERSTATION_PYTHON="
-if exist "%LOCALAPPDATA%\Wetterstation\venv\Scripts\python.exe" set "WETTERSTATION_PYTHON=%LOCALAPPDATA%\Wetterstation\venv\Scripts\python.exe"
+if exist "%LOCALAPPDATA%\Smarthome_Weather\venv\Scripts\python.exe" set "WETTERSTATION_PYTHON=%LOCALAPPDATA%\Smarthome_Weather\venv\Scripts\python.exe"
+if not defined WETTERSTATION_PYTHON if exist "%LOCALAPPDATA%\Wetterstation\venv\Scripts\python.exe" set "WETTERSTATION_PYTHON=%LOCALAPPDATA%\Wetterstation\venv\Scripts\python.exe"
 if not defined WETTERSTATION_PYTHON if exist "%USERPROFILE%\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" set "WETTERSTATION_PYTHON=%USERPROFILE%\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
 if defined WETTERSTATION_PYTHON goto run
 where.exe py.exe >nul 2>nul

@@ -26,7 +26,8 @@ frozen check working copies are located outside OneDrive. Only checked packages 
 acceptance reports are kept in the project. Shared resolution: `tools/dev_paths.py`.
 
 Use Python >=3.11 with Tkinter and the libraries from `requirements.txt`.
-Windows first looks for a local environment under `%LOCALAPPDATA%/Wetterstation/venv`,
+Windows first looks for a local environment under `%LOCALAPPDATA%/Smarthome_Weather/venv`
+(older setups: `%LOCALAPPDATA%/Wetterstation/venv`),
 then the existing bundled runtime, and then Python via `py` or PATH.
 Nothing is installed automatically. Keep virtual environments outside OneDrive.
 `python -m wetterstation --widget-demo` starts a labeled demo.
