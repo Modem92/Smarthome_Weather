@@ -63,7 +63,8 @@
 ## Git
 - Vor jedem neuen Branch main aktualisieren (git pull), denn parallele Sessions mergen laufend.
 - Eigener Branch (feat/…, fix/…). Selbstständig in kleinen Schritten committen, CLAUDE.md und ai/ immer mit.
-- Fertige Arbeit: Pull Request mit „Closes #…“ in der Beschreibung, damit das Issue automatisch schließt. Auf grüne CI warten (falls vorhanden), Fehler beheben, dann nach main mergen.
+- Fertige Arbeit: Pull Request mit „Closes #…“ in der Beschreibung, damit das Issue automatisch schließt. Auf grüne CI warten, Fehler beheben, dann selbst nach main mergen (`gh pr merge --squash --delete-branch`, in der Cloud per GitHub-Werkzeug bzw. `gh api`). Dafür hast du die Freigabe.
+- Gibt es noch keine CI: einen GitHub-Actions-Workflow anlegen, der bei jedem PR Tests, Build und Linter ausführt, und das in DECISIONS.md begründen.
 - Merge-Konflikte in ai/STATUS.md und ai/DECISIONS.md selbst auflösen: beide Stände zusammenführen, nichts verwerfen.
 - Nie direkt auf main pushen, nie force-push.
 
