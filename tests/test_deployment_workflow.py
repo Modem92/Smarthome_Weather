@@ -184,7 +184,7 @@ class DeploymentWorkflowTests(unittest.TestCase):
 
     def test_missing_setup_never_connects(self):
         with patch.object(updater.subprocess, 'run') as run:
-            with self.assertRaisesRegex(update.UpdateError, 'einrichten.cmd'):
+            with self.assertRaisesRegex(update.UpdateError, 'Set up SSH once.cmd'):
                 updater.perform(self.root, lambda _: None)
             run.assert_not_called()
 

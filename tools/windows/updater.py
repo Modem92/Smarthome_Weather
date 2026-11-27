@@ -43,7 +43,7 @@ def snapshot(root, destination):
 def configuration(root):
     path = root / 'private/pi-update.json'
     if not path.is_file():
-        raise update.UpdateError('Bitte zuerst windows/SSH einmalig einrichten.cmd ausfuehren.')
+        raise update.UpdateError('Bitte zuerst windows/Set up SSH once.cmd ausfuehren.')
     value = update.read_json(path, 8000)
     if (value.get('schema') != 1 or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9.:-]*', value.get('host', ''))
             or not re.fullmatch(r'[a-z_][a-z0-9_-]*', value.get('user', ''))):

@@ -36,7 +36,7 @@ class TransferDialog(QDialog):
         self.timeline_enable.clicked.connect(self.enable_timelines);self.timeline_disable.clicked.connect(lambda:self.start('timeline-disable'))
         try:self.transfer=Transfer(document,store)
         except ValueError as exc:self.status.setText(str(exc));self.check.setEnabled(False)
-        except Exception:self.status.setText('SSH-Einrichtung fehlt oder ist nicht lesbar. Zuerst „SSH einmalig einrichten“ verwenden.');self.check.setEnabled(False)
+        except Exception:self.status.setText('SSH-Einrichtung fehlt oder ist nicht lesbar. Zuerst „Set up SSH once.cmd“ verwenden.');self.check.setEnabled(False)
 
     def start(self,send):
         if not self.transfer:return
