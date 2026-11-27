@@ -69,13 +69,36 @@ class LeakGuardTests(unittest.TestCase):
         self.assertIn('settings.json:openweather_api_key', output)
         self.assertNotIn(SAMPLE_KEY.lower(), output.lower())
 
-    def test_only_added_lines_count_and_clean_commit_passes(self):
+    def test_clean_change_passes_but_touched_file_with_old_leak_is_blocked(self):
         self.write('docs/x.md', 'Ort: Musterdorf\n')
+        self.write('docs/y.md', 'Ort: Potsdam\n')
         git(self.repo, 'add', '.')
         git(self.repo, 'commit', '-qm', 'old leak already in history')
-        self.write('docs/x.md', 'Ort: Musterdorf\nOrt: Potsdam\n')
+        self.write('docs/y.md', 'Ort: Potsdam\nmore\n')
         git(self.repo, 'add', '.')
         self.assertEqual(self.run_check('--staged'), 0)
+        self.write('docs/x.md', 'Ort: Musterdorf\nOrt: Potsdam\n')
+        git(self.repo, 'add', '.')
+        self.assertEqual(self.run_check('--staged'), 1)
+
+    def test_non_ascii_path_and_plus_prefixed_lines_are_checked(self):
+        # Git quotes umlaut paths and shows "++ x" as "+++ x"; neither may hide a leak.
+        self.write('docs/Übersicht.md', f'++ note\nssh {SAMPLE_HOST}\n')
+        git(self.repo, 'add', '.')
+        self.assertEqual(self.run_check('--staged'), 1)
+
+    def test_utf16_content_is_checked(self):
+        (self.repo / 'export.ps1').write_bytes(f'$k = "{SAMPLE_KEY}"\r\n'.encode('utf-16'))
+        git(self.repo, 'add', '.')
+        self.assertEqual(self.run_check('--staged'), 1)
+
+    def test_missing_dir_warns(self):
+        self.denylist.write_text(f'dir: {self.private / "moved"}\n', encoding='utf-8')
+        with mock.patch('sys.stderr') as stderr:
+            entries = leaks.load_denylist(self.denylist)
+        output = ''.join(call.args[0] for call in stderr.write.call_args_list)
+        self.assertEqual(entries, [])
+        self.assertIn('WARNING', output)
 
     def test_file_name_is_checked(self):
         self.write('notes/musterdorf.txt', 'harmless\n')

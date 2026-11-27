@@ -17,7 +17,6 @@ import argparse
 import json
 import os
 from pathlib import Path
-import re
 import subprocess
 import sys
 
@@ -53,6 +52,10 @@ def load_denylist(path: Path) -> list[tuple[str, str]]:
 
 def _secrets_from_dir(folder: Path) -> list[tuple[str, str]]:
     found = []
+    if not folder.is_dir():
+        # A moved live folder would silently drop key protection, so say it loudly.
+        print(f'private-leak check WARNING: dir {folder} not found, its secrets are not checked', file=sys.stderr)
+        return found
     for name, fields in SECRET_FIELDS.items():
         try:
             data = json.loads((folder / name).read_text(encoding='utf-8-sig'))
@@ -74,38 +77,40 @@ def scan_lines(lines, entries):
                 yield number, label
 
 
-def staged_added_lines(cwd: Path):
-    """Yield (path, [(line_number, text)]) for lines added in the index."""
-    diff = _git(cwd, 'diff', '--cached', '--no-color', '--no-ext-diff', '-U0', '--diff-filter=ACMR')
-    path, number, lines = None, 0, []
-    for line in diff.splitlines():
-        if line.startswith('+++ '):
-            if path is not None:
-                yield path, lines
-            target = line[4:]
-            path = target[2:] if target.startswith('b/') else None
-            lines = []
-        elif line.startswith('@@'):
-            match = re.search(r'\+(\d+)', line)
-            number = int(match.group(1)) if match else 0
-        elif line.startswith('+') and path is not None:
-            lines.append((number, line[1:]))
-            number += 1
-    if path is not None:
-        yield path, lines
+def decode_lines(data: bytes):
+    """Return (line_number, text) for every readable variant of a blob.
+
+    UTF-16 and binary blobs never show up as diff lines, so the whole content is
+    decoded here; the UTF-16 view catches text saved by Windows tools.
+    """
+    if data.startswith((b'\xff\xfe', b'\xfe\xff')):
+        variants = [data.decode('utf-16', 'ignore')]
+    else:
+        variants = [data.decode('utf-8', 'ignore')]
+        if b'\x00' in data:
+            variants.append(data.decode('utf-16-le', 'ignore'))
+    return [(number, line) for text in variants for number, line in enumerate(text.splitlines(), 1)]
 
 
-def staged_paths(cwd: Path):
-    return [p for p in _git(cwd, 'diff', '--cached', '--name-only', '--diff-filter=ACMR').splitlines() if p]
+def staged_files(cwd: Path):
+    """Yield (path, lines) with the full index content of every staged file.
+
+    Whole files instead of parsed diff lines: no path quoting or header parsing
+    can hide a hunk, and an old leak in a touched file is caught too.
+    """
+    names = _git(cwd, '-c', 'core.quotePath=false', 'diff', '--cached', '--name-only', '-z', '--diff-filter=ACMR')
+    for name in filter(None, names.split('\0')):
+        blob = subprocess.run(['git', 'cat-file', 'blob', f':{name}'], cwd=cwd, check=True, capture_output=True).stdout
+        yield name, decode_lines(blob)
 
 
 def tracked_files(cwd: Path):
-    for name in _git(cwd, 'ls-files').splitlines():
+    for name in filter(None, _git(cwd, '-c', 'core.quotePath=false', 'ls-files', '-z').split('\0')):
         try:
-            text = (cwd / name).read_text(encoding='utf-8', errors='ignore')
+            data = (cwd / name).read_bytes()
         except OSError:
             continue
-        yield name, list(enumerate(text.splitlines(), 1))
+        yield name, decode_lines(data)
 
 
 def history_hits(cwd: Path, entries):
@@ -131,7 +136,7 @@ def _git(cwd: Path, *args) -> str:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument('--staged', action='store_true', help='check lines added in the index (default, used by the hook)')
+    mode.add_argument('--staged', action='store_true', help='check full index content of staged files (default, used by the hook)')
     mode.add_argument('--tracked', action='store_true', help='check all tracked files in the working tree')
     mode.add_argument('--history', action='store_true', help='check every commit reachable from any ref')
     parser.add_argument('--denylist', type=Path)
@@ -148,11 +153,10 @@ def main(argv=None) -> int:
     if args.history:
         hits = history_hits(args.repo, entries)
     else:
-        files = tracked_files(args.repo) if args.tracked else staged_added_lines(args.repo)
+        files = tracked_files(args.repo) if args.tracked else staged_files(args.repo)
         for path, lines in files:
             hits.extend((f'{path}:{number}', label) for number, label in scan_lines(lines, entries))
-        if not args.tracked:
-            hits.extend((path, label) for path, label in scan_lines([(path, path) for path in staged_paths(args.repo)], entries))
+            hits.extend((path, label) for _, label in scan_lines([(0, path)], entries))
 
     if hits:
         print('Private values found (values not shown):', file=sys.stderr)
