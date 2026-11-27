@@ -10,7 +10,7 @@
 - IMPORTANT: Jede Entscheidung, Korrektur und nicht offensichtliche Änderung bekommt ein kurzes Warum (siehe „Projektgedächtnis“). Künftige Sessions wissen nur, was aufgeschrieben ist.
 
 ## Sessionstart
-- Lautet mein Auftrag „weiter“ oder fehlt ein konkreter Auftrag: obersten offenen Punkt aus ai/STATUS.md nehmen (inkl. verlinkter Spec bzw. Issue), in einem Satz nennen und loslegen.
+- Lautet mein Auftrag „weiter“ oder fehlt ein konkreter Auftrag: obersten offenen Punkt aus ai/STATUS.md nehmen (inkl. verlinkter Spec bzw. Issue), in einem Satz nennen und loslegen. Ist dort nichts offen: offene GitHub-Issues abfragen und das wichtigste vorschlagen.
 - Hat mein Auftrag nichts mit offenen Punkten zu tun: offenen Punkt in einem Satz erwähnen, dann den Auftrag erledigen.
 - Nennt mein Auftrag ein Issue („Setze Issue #12 um“): nur daran arbeiten. Es laufen evtl. andere Sessions parallel, also in ai/STATUS.md nur diesen Punkt aktualisieren.
 
@@ -41,6 +41,7 @@
 ## Kontext und Kosten
 - Gezielt lesen: erst suchen (Grep/Glob), dann nur die relevanten Dateien oder Abschnitte.
 - GitHub lokal über die `gh` CLI. In Cloud-Sessions die eingebauten GitHub-Werkzeuge oder `gh api` (REST) nutzen, weil `gh pr` und `gh issue` dort blockiert sind. Was über die Session hinausgeht, wird ein Issue.
+- Jedes neue Issue sofort in ai/STATUS.md unter „Nächste Schritte“ oder „Offene Probleme“ mit Nummer eintragen. Neue Sessions sehen nur, was dort steht. Geschlossene Issues dort entfernen.
 - Knapp antworten: keinen Code wiederholen, den ich schon gesehen habe, keine Zusammenfassung jedes Zwischenschritts.
 - Beim Kompaktieren erhalten: aktuelle Aufgabe mit Done-Kriterium, geänderte Dateien, Testbefehle, offene Probleme.
 - Neue Session und `/compact` kann nur ich auslösen. Ist eine Aufgabe abgeschlossen: ai/STATUS.md aktualisieren, committen und im 80/20 eine neue Session empfehlen. Ist der Kontext mitten in einer Aufgabe voll mit Erledigtem: `/compact` mit passendem Fokus empfehlen.
@@ -49,6 +50,7 @@
 - CLAUDE.md enthält nur Stabiles (Zweck, Stack, Befehle, Konventionen, Regeln, Leitentscheidungen) und bleibt unter 150 Zeilen.
 - ai/STATUS.md enthält den veränderlichen Stand. Direkt nach jedem abgeschlossenen Schritt, jeder Entscheidung und jedem neuen Problem aktualisieren. Erledigtes löschen oder auf eine Zeile kürzen. Max. ca. 30 Zeilen.
 - ai/DECISIONS.md: jede Entscheidung als Eintrag mit Datum, Entscheidung, Warum und verworfenen Alternativen, neueste oben. Ersetzte Entscheidungen als „ersetzt durch …“ markieren statt löschen. Vor Änderungen an Architektur oder früheren Entscheidungen dort suchen.
+- Neue dauerhafte Anforderung von mir (z. B. „muss ressourcenschonend sein“, Zielgerät, Datenschutz): sofort unter „Anforderungen“ eintragen, mit Warum, falls ich eins nenne (sonst nachfragen). Ab dann bei jeder Arbeit berücksichtigen und im 80/20 erwähnen. Widerspricht sie bestehendem Code oder früheren Entscheidungen: Konflikt nennen und als Issue anlegen.
 - Korrektur von mir, die wieder passieren kann: als einzeilige Regel mit Warum in Klammern unter „Regeln“ eintragen und im 80/20 erwähnen.
 - Commits: Betreff = was, Text = warum (1–3 Zeilen).
 - Nicht offensichtlicher Code: kurzer Kommentar zum Warum, nicht zum Was.
