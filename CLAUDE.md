@@ -88,6 +88,7 @@ Nur am Ende einer abgeschlossenen Aufgabe (nicht bei Zwischenantworten), unter `
 - Visual: `python tests/display_visual_check.py`, `python tests/designer_scale_check.py` (output under `build/checks/`)
 - Browser: start `python tests/widget_demo.py`, then `node tests/widget_browser_check.cjs` or `pairing_`/`designer_phone_`/`international_browser_check.cjs`
 - Designer acceptance incl. Pi package build: `python tools/designer_acceptance.py` · Workspace maintenance (check mode): `python tools/workspace_maintenance.py`
+- Leak guard: once per clone `git config core.hooksPath tools/git-hooks` (pre-commit runs `tools/check_private_leaks.py`); audit with `--tracked` / `--history`
 - Pi update: `windows/Update Pi.cmd` (only with approval; procedure in docs/UPDATE.md)
 
 ## Struktur (nur Einstiegspunkte)
@@ -109,6 +110,7 @@ Nur am Ende einer abgeschlossenen Aufgabe (nicht bei Zwischenantworten), unter `
 ## Konventionen (nur Abweichungen vom Standard)
 - Every file the Pi needs is listed in `FILES` in `tools/pi/update.py`; removed Pi files go into `RETIRED_FILES` (otherwise the package build fails or stale files remain).
 - Private data (settings, keys, certificates, caches, counters, layouts) only under `private/`, paths via `paths.py`.
+- Real device/location facts live in gitignored `CLAUDE.local.md`; the denylist for the leak guard in gitignored `private/leak-denylist.txt`. Public files use Potsdam and placeholders; never bypass the hook (`--no-verify`).
 
 ## Regeln (aus Korrekturen, mit Warum)
 - A noted idea is not an approval: new features, live requests, Pi transfer, sensors, accounts, cloud services and publishing only after concrete approval (the user approves each scope explicitly).

@@ -2,6 +2,12 @@
 
 Carried over on 27.11.2026 from PROJEKTPLAN.md, AGENTS.md, the old CLAUDE.md and docs/ (original wording in the Git history, commit `bbc838e`).
 
+## 2026-11-27: Private facts in CLAUDE.local.md, pre-commit leak guard
+- Decision: real Pi target, location and private file locations go into gitignored `CLAUDE.local.md` (auto-loaded by Claude Code). A versioned pre-commit hook (`tools/git-hooks/pre-commit`, activated via `core.hooksPath`) runs `tools/check_private_leaks.py`, which blocks added lines and file names containing values from the gitignored `private/leak-denylist.txt` plus key/location/Pi target read from the live `private/*.json` (`dir:` line). Hits print file:line and source, never the value. Without a denylist (other clones, CI) the check passes with a warning.
+- Why: the user had these facts in a plaintext desktop file and wants sessions to use them without ever publishing them (public repo). Reading the key from settings.json avoids a second plaintext copy; the denylist itself stays private because the values are private.
+- Rejected: committing the denylist hashed (substring matching on hashes is impractical); a Claude-only hook (would miss the user's own commits); CI check (CI has no access to the private values).
+- Status: valid
+
 ## 2026-11-27: Development venv at `%LOCALAPPDATA%/Smarthome_Weather/venv`
 - Decision: Windows starters look there first, then at the old `%LOCALAPPDATA%/Wetterstation/venv`, then bundled runtime, `py`, PATH. Budget root and designer runtime stay under `Wetterstation`.
 - Why: user named the folder after the repo. The old path stays as fallback so existing PCs keep working; the budget identity must not move (see stable `private/` path decision).
