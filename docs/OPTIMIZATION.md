@@ -1,141 +1,140 @@
-# Optimierung vom 28.10.2026
+# Optimization of 28 Oct 2026
 
-## Abschließendes Ergebnis
+## Final result
 
-Final auf dem Pi installiert: `2026-10-28-optimization-174804`, SHA-256
-`<interne Prüfsumme>`.
-389 Tests bestanden im eingefrorenen Stand. Die Widget-Demo wurde geordnet
-wieder gestartet. Nutzerabnahme: „Passt alles, läuft auch flüssig“.
+Final version installed on the Pi: `2026-10-28-optimization-174804`, SHA-256
+`<internal checksum>`.
+389 tests passed on the frozen state. The widget demo was restarted in an orderly
+way. User acceptance: "Everything fits, and it also runs smoothly."
 
-| Messung | Vorher | Final |
+| Measurement | Before | Final |
 |---|---:|---:|
-| CPU, 10-Sekunden-Demostichprobe, ein Kern | 21,1 % | 1,1 % |
-| Datenträger-Schreibbytes in dieser Stichprobe | 65.536 | 0 |
-| RSS derselben Demo | 45.324 KiB | 66.328 KiB |
-| Übersicht, erste Berechnung | 4.031 ms | 1.163 ms |
-| Übersicht, Median dreier Wiederholungen | 3.927 ms | 84 ms |
-| Vorhersage, erste Berechnung | 3.691 ms | 524 ms |
-| Vorhersage, Median dreier Wiederholungen | 3.640 ms | 65 ms |
-| Sensorseite, erste Berechnung | 859 ms | 293 ms |
-| Sensorseite, Median dreier Wiederholungen | 474 ms | 73 ms |
+| CPU, 10-second demo sample, one core | 21.1 % | 1.1 % |
+| Disk write bytes in this sample | 65,536 | 0 |
+| RSS of the same demo | 45,324 KiB | 66,328 KiB |
+| Overview, first computation | 4,031 ms | 1,163 ms |
+| Overview, median of three repetitions | 3,927 ms | 84 ms |
+| Forecast, first computation | 3,691 ms | 524 ms |
+| Forecast, median of three repetitions | 3,640 ms | 65 ms |
+| Sensor page, first computation | 859 ms | 293 ms |
+| Sensor page, median of three repetitions | 474 ms | 73 ms |
 
-Die Regen-Demoseite blieb ungefähr bei 10–14 ms. Die Renderwerte stammen aus
-dem identischen getrennten 1024×600-Test mit Standard-Demodaten und enthalten
-die Tk-Aufbereitung, nicht die vollständige physische Displaylatenz. Der
-Speicheranstieg ist der Preis für wiederverwendete Schrift-/Darstellungsdaten.
-Die Stichproben sind keine Langzeitmessung. Ein Livebetrieb wurde für diese
-Tests nicht gestartet; externe Wetterabrufe wurden durch die Renderprobe gesperrt.
-Die Zustände eines realen Handybrowsers waren in der Prozessmessung nicht
-fernüberwacht. Browser-Ruhepause, Wiederaufnahme, keine Übertragung während des
-Ziehens und genau eine danach wurden separat mit isolierten Browser-/Zeitprüfungen
-nachgewiesen; die Bedienung am Pi wurde zusätzlich vom Nutzer bestätigt.
+The rain demo page stayed at roughly 10–14 ms. The render values come from
+the identical separate 1024×600 test with standard demo data and include
+the Tk preparation, not the complete physical display latency. The
+memory increase is the price for reused font/rendering data.
+The samples are not a long-term measurement. No live operation was started for these
+tests; external weather requests were blocked by the render probe.
+The states of a real phone browser were not remotely monitored in the process measurement.
+Browser idle pause, resume, no transmission while
+dragging and exactly one afterwards were demonstrated separately with isolated browser/timing checks;
+operation on the Pi was additionally confirmed by the user.
 
-Das bestehende gespeicherte Pi-Layout hat vor/nach der Übernahme denselben
-SHA-256-Wert. Die Demo bleibt geöffnet. Finale Sicherung:
-`~/wetterstation/Wetterstation-Backups/<Zeitstempel>`.
-Der bekannte funktionsfähige Stand vor der ersten Optimierung bleibt außerdem in
-`~/wetterstation/Wetterstation-Backups/<Zeitstempel>`
-gesichert. Der erste Stand mit fehlgeschlagenem Start liegt ausdrücklich unter
-`archive/failed-start-packages`, nicht unter den zwei aktuellen geprüften Paketen.
+The existing saved Pi layout has the same SHA-256 value before and after the takeover.
+The demo stays open. Final backup:
+`~/wetterstation/Wetterstation-Backups/<timestamp>`.
+The known working state before the first optimization also remains
+backed up in `~/wetterstation/Wetterstation-Backups/<timestamp>`.
+The first state with the failed start is explicitly under
+`archive/failed-start-packages`, not among the two current checked packages.
 
-build enthält nach Bereinigung und neuen Prüfbelegen rund 7,9 MiB/109 Dateien
-statt rund 341 MiB/5.186 Dateien. Alte Belege wurden komprimiert aufbewahrt, nicht
-ersatzlos gelöscht. Die zusätzlichen Archive belegen weiterhin OneDrive-Speicher.
-Die folgenden Abschnitte dokumentieren Vorgehen und Zwischenstände chronologisch.
+After cleanup and new check evidence, build contains about 7.9 MiB/109 files
+instead of about 341 MiB/5,186 files. Old evidence was kept compressed, not
+deleted without replacement. The additional archives still use OneDrive storage.
+The following sections document the approach and interim states chronologically.
 
-## Geprüfte Struktur
+## Checked structure
 
-Die gemeinsame Codebasis, Kompatibilitätseinstiege, Tests und Wiederherstellungswege
-bleiben erhalten. Persönliche Einstellungen, Entwürfe, Layouts, Zertifikate,
-Caches und Budgetidentitäten wurden durch die Bereinigung nicht verändert.
+The shared codebase, compatibility entry points, tests and recovery paths
+are kept. Personal settings, drafts, layouts, certificates,
+caches and budget identities were not changed by the cleanup.
 
-Die PC-Designer-Laufzeit wurde vollständig und bytegleich nach
-`%USERPROFILE%/AppData/Local/Wetterstation/designer-runtime` kopiert. Ein isolierter
-Qt-Start war erfolgreich. Starter und Qt-Prüfung verwenden `tools/dev_paths.py`;
-der alte Suchweg bleibt als Rückfall für noch nicht umgestellte Arbeitsplätze.
-Die lokale Ersatzlaufzeit wurde nach Prüfsummen- und Prozessprüfung entfernt.
-Neue eingefrorene Prüfkopien liegen ebenfalls außerhalb OneDrive.
+The PC designer runtime was copied completely and byte-identically to
+`%USERPROFILE%/AppData/Local/Wetterstation/designer-runtime`. An isolated
+Qt start succeeded. Starter and Qt check use `tools/dev_paths.py`;
+the old search path remains as a fallback for workstations not yet converted.
+The local substitute runtime was removed after checksum and process checks.
+New frozen check copies are likewise located outside OneDrive.
 
-Bekannte alte Prüfausgaben sind vollständig in
-`archive/optimization-20261028T165303357535Z.zip` mit Inhaltsprüfsummen gesichert.
-Windows-Schreibschutz führte beim ersten Entfernen zum Abbruch; der zweite
-Durchlauf prüfte die verbliebenen Dateien gegen dasselbe Archiv und setzte fort.
-Unbekannte Restordner bleiben erhalten. Der zusätzliche Projektplan liegt
-bytegleich im Archiv; abweichende Abschnitte stehen in `PROJECT_HISTORY_ALT.md`.
+Known old check outputs are fully backed up, with content checksums, in
+`archive/optimization-20261028T165303357535Z.zip`.
+Windows write protection caused an abort on the first removal; the second
+run checked the remaining files against the same archive and continued.
+Unknown leftover folders are kept. The additional project plan is in the archive
+byte-identically; its differing sections have been merged into `ai/DECISIONS.md`.
 
-Prüfmodus: `python tools/workspace_maintenance.py`. Erst `--apply` verändert etwas.
-Die Optionen `--resume-archive` und `--retire-runtime` unterstützen die abgesicherte
-Fortsetzung. `--prune-packages` erhält die zwei neuesten inhaltlich geprüften Pakete
-und verschiebt ältere mit Prüfsummen nach `archive/retired-pi-packages`.
+Check mode: `python tools/workspace_maintenance.py`. Only `--apply` changes anything.
+The options `--resume-archive` and `--retire-runtime` support the secured
+continuation. `--prune-packages` keeps the two newest content-checked packages
+and moves older ones with checksums to `archive/retired-pi-packages`.
 
-## Laufzeit und Bedienung
+## Runtime and operation
 
-- HTTPS bleibt erreichbar; der Server wartet im Leerlauf mit 500 ms statt 100 ms
-  Prüfintervall. Ein eintreffender Socket wird unmittelbar verarbeitet.
-- Browserabfragen pausieren nach 60 Sekunden ohne Bedienung, bei verborgenem Tab
-  oder Fokusverlust. Vor weiteren Änderungen wird der Displaystand geprüft.
-  Eine abweichende Revision sperrt Bearbeitung, aber nicht Neuladen/Abmelden.
-- Verschieben, Kollisionsvorschau und Größenänderung laufen im Browser. Während
-  des Ziehens wird nichts gespeichert, nach dem Loslassen genau einmal.
-  Sichtbare Inhalte, Farben und Schriften werden im PC-Designer bearbeitet.
-- Sitzungen, Einmalcodes, TLS-, Origin- und CSRF-Schutz bleiben erhalten.
-- Die Laufzeitdatei wird nur bei Zustandsänderung geschrieben. Stop-Anforderungen
-  werden unverändert regelmäßig geprüft. Ohne wartende Anmeldung gibt es keinen
-  Anmeldetimer; wartende Codes erhalten gezielte Ablaufzeitpunkte.
-- Legacy-Anzeigen verwenden wiederverwendbare Schriftinstanzen und Messungen;
-  unveränderte Uhrtexte werden nicht neu berechnet.
-- Gestaltete Seiten werden durch einen einzelnen Hintergrundauftrag vorbereitet.
-  Nur der jeweils aktuelle Auftrag darf am Tk-Display übernommen werden. Tk-Bilder
-  bleiben im Hauptthread. Die Bestätigung erfolgt erst nach tatsächlicher Anzeige
-  samt gültiger Geometrie. Seiten- und Widgetcaches sind auf je 16 MiB begrenzt.
+- HTTPS stays reachable; when idle, the server waits with a 500 ms check interval
+  instead of 100 ms. An incoming socket is processed immediately.
+- Browser polling pauses after 60 seconds without interaction, when the tab is hidden,
+  or on loss of focus. Before further changes, the display state is checked.
+  A differing revision blocks editing, but not reload/sign-out.
+- Moving, collision preview and resizing run in the browser. Nothing is saved
+  while dragging, and exactly once after release.
+  Visible content, colors and fonts are edited in the PC designer.
+- Sessions, one-time codes, and TLS, origin and CSRF protection are kept.
+- The runtime file is written only on a state change. Stop requests
+  are still checked regularly, unchanged. Without a pending login there is no
+  login timer; pending codes get targeted expiry times.
+- Legacy displays use reusable font instances and measurements;
+  unchanged clock texts are not recomputed.
+- Designed pages are prepared by a single background job.
+  Only the current job may be adopted on the Tk display. Tk images
+  stay in the main thread. Confirmation happens only after actual display
+  with valid geometry. Page and widget caches are each limited to 16 MiB.
 
-## Abnahme und Grenzen
+## Acceptance and limits
 
-Die erste lokale Gesamtprüfung bestand aus 386 Python-Tests. Nachfolgende
-Korrekturen und zusätzliche Regressionen werden durch die abschließende
-eingefrorene Abnahme erneut geprüft. Maßgeblich sind die Berichte unter
-`build/reports/` und `build/checks/designer-acceptance.json`.
-Normale Anordnungs-, Mehrbrowser-Anmelde- und Designformat-Browserprüfungen sowie
-18 PC-Designer-Oberflächenprüfungen bestanden mit Dummy-Daten ohne externe Abrufe.
+The first local full check consisted of 386 Python tests. Subsequent
+fixes and additional regressions are checked again by the final
+frozen acceptance. The reports under
+`build/reports/` and `build/checks/designer-acceptance.json` are authoritative.
+Normal arrangement, multi-browser sign-in and design-format browser checks as well as
+18 PC designer UI checks passed with dummy data and no external requests.
 
-Der Pi wurde vor der Übernahme rein lesend geprüft: alter Programmstand ohne
-Designer-Laufzeit, bestehendes Layoutformat 2. Die vom Nutzer gestartete
-Widget-Demo belegte in einer 10-Sekunden-Stichprobe 21,1 % eines CPU-Kerns,
-45.324 KiB RSS und 522 Schreib-Systemaufrufe. Schreib-Systemaufrufe enthalten
-auch Socketkommunikation und sind nicht mit SD-Karten-Schreibvorgängen gleichzusetzen.
+Before the takeover, the Pi was checked read-only: old program state without
+designer runtime, existing layout format 2. The widget demo started by the user
+used, in a 10-second sample, 21.1 % of one CPU core,
+45,324 KiB RSS and 522 write system calls. Write system calls include
+socket communication as well and are not equivalent to SD card writes.
 
-Ein getrennter unsichtbarer Test mit temporären Standard-Demodaten auf demselben
-Pi ergab vor der Optimierung ungefähr 4,03/3,93 Sekunden für die Übersicht und
-3,69/3,64 Sekunden für die Vorhersage (erste Berechnung/Median dreier Wiederholungen).
-Er verändert die laufende Demo nicht und sperrt Provideraufrufe. Dieser Test
-misst Berechnung inklusive Tk-Aufbereitung, nicht die vollständige physische
-Displaylatenz. Die Rohbelege liegen unter `build/reports/pi-*-before*.json`.
+A separate invisible test with temporary standard demo data on the same
+Pi gave, before the optimization, roughly 4.03/3.93 seconds for the overview and
+3.69/3.64 seconds for the forecast (first computation/median of three repetitions).
+It does not change the running demo and blocks provider calls. This test
+measures computation including Tk preparation, not the complete physical
+display latency. The raw evidence is under `build/reports/pi-*-before*.json`.
 
-Gesicherte Übernahme und Nachher-Messung folgen erst nach der eingefrorenen
-Offline-Abnahme. Ein PC-Testergebnis ist kein Pi-Leistungsnachweis. Wetterraster,
-Budgetschutz, Ortszeit und die Quellenkennzeichnung sind unverändert.
+Secured takeover and the after-measurement follow only after the frozen
+offline acceptance. A PC test result is not a Pi performance proof. Weather grid,
+budget protection, local time and source attribution are unchanged.
 
-Die erste Übernahme bestand die Installation, konnte die Demo aber nicht starten:
-Debian stellt `PIL.ImageTk` als optionales separates Paket bereit, das auf diesem
-Pi fehlt. Die Korrektur nutzt vorhandenes Tkinter mit PNG-Übernahme als Rückfall,
-ohne Paketinstallation. Sie wird ausdrücklich ohne ImageTk auf Farbinhalt, Größe
-und Transparenz geprüft; auch die Pi-Vorabprüfung importiert nun den Anzeigepfad.
-Beim Schließen werden Bildaufträge beendet und Tk-Ressourcen im Hauptthread
-freigegeben. Der erneute eingefrorene Stand wird vor einer korrigierten Übernahme
-vollständig offline geprüft. Die ursprüngliche Demo soll anschließend wieder
-hergestellt werden; kein Wechsel in den Livebetrieb.
+The first takeover passed installation but could not start the demo:
+Debian provides `PIL.ImageTk` as an optional separate package, which is missing on this
+Pi. The fix uses the existing Tkinter with PNG transfer as a fallback,
+without package installation. It is explicitly checked without ImageTk for color content, size
+and transparency; the Pi pre-check now also imports the display path.
+On closing, image jobs are ended and Tk resources are released in the main thread.
+The renewed frozen state is checked completely offline before a corrected takeover.
+The original demo is to be restored afterwards; no switch to live operation.
 
-Die korrigierte Fassung wurde anschließend mit 388 Tests abgenommen, erfolgreich
-installiert und die ursprüngliche Widget-Demo wieder gestartet. In der gleichen
-10-Sekunden-Stichprobe sank die CPU-Belegung von 21,1 auf 1,6 % eines Kerns;
-Datenträger-Schreibbytes von 65.536 auf 0, RSS stieg von 45.324 auf 50.864 KiB.
-Das bestehende Pi-Layout blieb nach SHA-256 unverändert. Wiederholte synthetische
-Seitenberechnung sank auf etwa 87 ms (Übersicht) bzw. 64 ms (Vorhersage).
+The corrected version was then accepted with 388 tests, installed
+successfully and the original widget demo restarted. In the same
+10-second sample, CPU usage fell from 21.1 to 1.6 % of one core;
+disk write bytes from 65,536 to 0, RSS rose from 45,324 to 50,864 KiB.
+The existing Pi layout remained unchanged by SHA-256. Repeated synthetic
+page computation fell to roughly 87 ms (overview) and 64 ms (forecast).
 
-Die erste Berechnung blieb zunächst mit 2,69 bzw. 1,38 Sekunden zu langsam.
-Eine weitere Linux-Optimierung engt die Schriftgrößensuche mit den mitgelieferten
-DejaVu-Schriften ein; die endgültigen Zeilenumbrüche, Größen und Grenzen werden
-weiterhin mit tatsächlichen Tk-Metriken geprüft. Ein getrennter Test dieses
-zusätzlichen Codes im Speicher des Pi ergab 1,18 bzw. 0,53 Sekunden für erste
-Berechnungen und unverändert etwa 86/65 ms für Wiederholungen. Vor der Installation
-auch dieser Ergänzung folgt erneut die vollständige eingefrorene Abnahme.
+The first computation initially stayed too slow at 2.69 and 1.38 seconds.
+A further Linux optimization narrows the font size search using the bundled
+DejaVu fonts; the final line breaks, sizes and limits are
+still checked with actual Tk metrics. A separate test of this
+additional code in the Pi's memory gave 1.18 and 0.53 seconds for first
+computations and unchanged roughly 86/65 ms for repetitions. Before installing
+this addition as well, the complete frozen acceptance follows again.

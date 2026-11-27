@@ -60,7 +60,7 @@ try {
         [IO.File]::WriteAllText($temporaryConfig, ($config | ConvertTo-Json), (New-Object Text.UTF8Encoding $false))
         Move-Item -LiteralPath $temporaryConfig -Destination $settingsFile
     }
-    Write-Host 'Einrichtung erfolgreich. Kuenftig Pi aktualisieren.cmd doppelklicken.'
+    Write-Host 'Einrichtung erfolgreich. Kuenftig "Update Pi.cmd" doppelklicken.'
     Write-Host 'Nach dem naechsten Windows-Neustart die Anmeldung ebenfalls pruefen.'
 } catch {
     Write-Host ('Einrichtung angehalten: ' + $_.Exception.Message)

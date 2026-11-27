@@ -1,63 +1,63 @@
-# Struktur und Entwicklung
+# Structure and development
 
-## Ein Programm, zwei Startumgebungen
+## One program, two startup environments
 
-`wetterstation/ui` enthält Tk-Anzeige und Widgets, `weather` die Wetter-/Ortslogik,
-`maps` die Kartenverarbeitung, `storage` Einstellungen und Budgetschutz und `mobile`
-die Handy-Schnittstelle samt Webdateien. `paths.py` bestimmt den unveränderten
-Projektordner zentral; das Verschieben von Modulen ändert keinen privaten Speicherpfad.
+`wetterstation/ui` contains the Tk display and widgets, `weather` the weather/location logic,
+`maps` the map processing, `storage` settings and budget protection, and `mobile`
+the phone interface including web files. `paths.py` determines the unchanged
+project folder centrally; moving modules does not change any private storage path.
 
-Windows-Starter liegen unter `windows`, Pi-Starter unter `raspberry_pi`.
-`tools/pi/update.py` bleibt mit der Standardbibliothek allein ausführbar, damit
-Sicherung und Wiederherstellung auch aus dem Pi-Zwischenordner funktionieren.
-`tools/pi/controller.py` steuert ausschließlich ausdrücklich gestartete Updatevorgänge.
-`tools/legacy` enthält die frühere einmalige Schlüssel-/Zählermigration; sie ist kein Updateweg.
+Windows starters are under `windows`, Pi starters under `raspberry_pi`.
+`tools/pi/update.py` stays runnable with the standard library alone, so that
+backup and restore also work from the Pi intermediate folder.
+`tools/pi/controller.py` controls only explicitly started update operations.
+`tools/legacy` contains the earlier one-time key/counter migration; it is not an update path.
 
-Die Rootdateien `app.py`, `pi_update.py`, `pi_preflight.py` und die alten Starter sind
-Kompatibilitätseinstiege. Es gibt keine zweite Kopie der Programmlogik.
-Das Pi-Paketformat 2 enthält eine ausdrückliche Dateiliste. Bei der Umstellung werden
-nur benannte alte Programmdateien nach Sicherung entfernt. Unbekannte Dateien bleiben erhalten.
+The root files `app.py`, `pi_update.py`, `pi_preflight.py` and the old starters are
+compatibility entry points. There is no second copy of the program logic.
+Pi package format 2 contains an explicit file list. During the conversion,
+only named old program files are removed after backup. Unknown files are kept.
 
-## Laufzeit und Tests
+## Runtime and tests
 
-Die Optimierung und der Prüfmodus zur abgesicherten Bereinigung sind unter
-[OPTIMIZATION.md](OPTIMIZATION.md) beschrieben. Die Designer-Laufzeit und neue
-eingefrorene Prüfarbeitskopien liegen außerhalb OneDrive. Nur geprüfte Pakete und
-Abnahmeberichte werden im Projekt aufbewahrt. Gemeinsame Auflösung: `tools/dev_paths.py`.
+The optimization and the check mode for secured cleanup are described in
+[OPTIMIZATION.md](OPTIMIZATION.md). The designer runtime and new
+frozen check working copies are located outside OneDrive. Only checked packages and
+acceptance reports are kept in the project. Shared resolution: `tools/dev_paths.py`.
 
-Python >=3.11 mit Tkinter und den Bibliotheken aus `requirements.txt` verwenden.
-Windows sucht zuerst eine lokale Umgebung unter `%LOCALAPPDATA%/Wetterstation/venv`,
-danach die vorhandene gebündelte Laufzeit und anschließend Python über `py` beziehungsweise PATH.
-Es wird nichts automatisch installiert. Virtuelle Umgebungen außerhalb OneDrive halten.
-`python -m wetterstation --widget-demo` startet eine gekennzeichnete Demo.
+Use Python >=3.11 with Tkinter and the libraries from `requirements.txt`.
+Windows first looks for a local environment under `%LOCALAPPDATA%/Wetterstation/venv`,
+then the existing bundled runtime, and then Python via `py` or PATH.
+Nothing is installed automatically. Keep virtual environments outside OneDrive.
+`python -m wetterstation --widget-demo` starts a labeled demo.
 
-`python tools/offline_tests.py` führt alle automatisierten Python-/Tk-/HTTPS-Tests
-mit externen Verbindungen gesperrt aus. Windows-Mehrprozesstests aus dieser gespeicherten
-Datei starten, nicht über PowerShell-Standardeingabe.
+`python tools/offline_tests.py` runs all automated Python/Tk/HTTPS tests
+with external connections blocked. Start Windows multi-process tests from this saved
+file, not via PowerShell standard input.
 
-Für Browserabnahmen `python tests/widget_demo.py` als isolierten lokalen HTTPS-Server
-starten; dann mit vorhandener Node-/Playwright-Umgebung
-`node tests/widget_browser_check.cjs` und `node tests/pairing_browser_check.cjs` ausführen.
-Die Browserprüfungen blockieren externe Seitenzugriffe. `tests/international_visual_check.py`
-und `tests/international_browser_check.cjs` prüfen entsprechend internationale Beispieldaten.
-`tests/display_visual_check.py` erzeugt synthetische Displaybilder. Die Ausgaben liegen
-unter `build/checks/`; persönliche Einstellungen werden nicht verändert.
+For browser acceptance, start `python tests/widget_demo.py` as an isolated local HTTPS server;
+then, with an existing Node/Playwright environment, run
+`node tests/widget_browser_check.cjs` and `node tests/pairing_browser_check.cjs`.
+The browser checks block external page access. `tests/international_visual_check.py`
+and `tests/international_browser_check.cjs` similarly check international sample data.
+`tests/display_visual_check.py` generates synthetic display images. The outputs are
+under `build/checks/`; personal settings are not changed.
 
-## GitHub und lokale Projektdaten
+## GitHub and local project data
 
-Quellcode, Tests, Dokumentation, Paketdefinition und Zeilenendenvorgaben sind für ein
-gemeinsames Repository vorbereitet. `private`, `build`, `archive`, alte `transfer`-Ordner,
-Python-Caches, Umgebungen und Laufzeitkennungen sind ausgeschlossen.
-Vor dem ersten Commit die tatsächlich vorgesehene Dateiauswahl auf vertrauliche Inhalte
-prüfen. Vor einem Upload zusätzlich die vollständige Git-Historie prüfen.
-Das öffentliche Repository enthält einen geprüften Quellstand mit neutraler Beispielkonfiguration.
+Source code, tests, documentation, package definition and line-ending settings are prepared for a
+shared repository. `private`, `build`, `archive`, old `transfer` folders,
+Python caches, environments and runtime identifiers are excluded.
+Before the first commit, check the actually intended file selection for confidential content.
+Before an upload, additionally check the complete Git history.
+The public repository contains a checked source state with a neutral sample configuration.
 
-OneDrive darf den gesamten Ordner einschließlich der unverschlüsselten Einstellungen
-synchronisieren. Der Ausschluss aus Git ändert daran nichts. Den Projektordner auf
-diesem PC auf „Immer auf diesem Gerät behalten“ stellen. Nicht gleichzeitig an mehreren
-Computern in demselben synchronisierten Git-Arbeitsordner arbeiten.
-Bei regelmäßiger GitHub-Nutzung eigene lokale Arbeitskopien außerhalb von OneDrive verwenden.
+OneDrive may synchronize the entire folder, including the unencrypted settings.
+The exclusion from Git does not change that. Set the project folder on
+this PC to "Immer auf diesem Gerät behalten" (Always keep on this device). Do not work at the same time on several
+computers in the same synchronized Git working folder.
+With regular GitHub use, use your own local working copies outside OneDrive.
 
-Die Sicherung vor der Umordnung liegt unter `archive/before-restructure-*/workspace.zip`.
-Sie enthält auch vertrauliche Dateien und den vorherigen Git-Stand. Alte Transferpakete
-liegen unter `archive/transfer-*`. Archive werden nicht automatisch gelöscht.
+The backup from before the reorganization is under `archive/before-restructure-*/workspace.zip`.
+It also contains confidential files and the previous Git state. Old transfer packages
+are under `archive/transfer-*`. Archives are not deleted automatically.

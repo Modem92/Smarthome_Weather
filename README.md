@@ -1,64 +1,85 @@
-# Wetterstation
+# Weather station
 
-Gemeinsames Python-Programm für Windows und Raspberry Pi. Anzeige, Wetterdienste,
-Regenkarte und geschützte Handy-Oberfläche verwenden denselben Programmstand.
+Shared Python program for Windows and Raspberry Pi. Display, weather services,
+rain map and the protected phone interface all use the same program version.
+The user interface is German.
 
-## Starten
+## Starting
 
-- **Gestaltung am PC:** `windows/Wetterstation gestalten.cmd` öffnet den getrennten
-  Konfigurator mit Beispieldaten. Zwei Tabs für Anordnung und erweiterte Gestaltung;
-  acht Größenanfasser, direkt verschiebbare Inhaltsblöcke und gemeinsames Innenraster.
-  Der Handy-Editor bleibt für die Anordnung nutzbar. Anleitung und Abnahmestand:
-  [Designer](docs/DESIGNER.md). Zusätzliche Zeitreihen verlangen eine ausdrückliche
-  Aktivierung je Gerät unter **Datenquellen** beziehungsweise im Pi-Übertragungsdialog.
-  Der Konfigurator selbst ruft keine Wetterdaten ab.
+- **Design on the PC:** `windows/Design weather station.cmd` opens the separate
+  configurator with sample data. Two tabs for arrangement and advanced design;
+  eight resize handles, directly movable content blocks and a shared inner grid.
+  The phone editor remains usable for arrangement. Guide and acceptance status:
+  [Designer](docs/DESIGNER.md). Additional time series require explicit
+  activation per device under **Datenquellen** (data sources) or in the Pi transfer dialog.
+  The configurator itself does not request any weather data.
 
-- **Windows:** `windows/Wetterstation starten.cmd` startet den normalen Betrieb.
-  Solange der Pi dieselbe Budgetidentität live verwendet, am PC ausschließlich
-  **`windows/Widget-Demo.cmd`** mit klar gekennzeichneten Beispieldaten verwenden.
-- **Pi aktualisieren:** einmal `windows/SSH einmalig einrichten.cmd`, danach
-  **`windows/Pi aktualisieren.cmd`** doppelklicken. Der Updater startet nur manuell.
-- **Pi:** vorhandenes Desktop-Symbol oder `sh start_pi_live.sh` im Pi-Projektordner.
-  `sh start_pi_widget_demo.sh` verwendet getrennte temporäre Beispieldaten.
+- **Windows:** `windows/Start weather station.cmd` starts normal operation.
+  While the Pi uses the same budget identity live, use only
+  **`windows/Widget demo.cmd`** with clearly labelled sample data on the PC.
+- **Update the Pi:** run `windows/Set up SSH once.cmd` once, then double-click
+  **`windows/Update Pi.cmd`**. The updater only starts manually.
+- **Pi:** existing desktop icon or `sh start_pi_live.sh` in the Pi project folder.
+  `sh start_pi_widget_demo.sh` uses separate temporary sample data.
 
-Beim ersten Update auf die neue Struktur die alte Pi-Wetterstation einmal selbst
-schließen. Spätere Updates beenden eine laufende neue Version geordnet und starten
-denselben Demo-/Live-Modus wieder. Eine geschlossene Anwendung bleibt geschlossen.
-Wiederstart im Livemodus kann reguläre Wetter- und Kartenabrufe auslösen.
+On the first update to the new structure, close the old Pi weather station yourself
+once. Later updates shut down a running new version in an orderly way and restart
+the same demo/live mode. A closed application stays closed.
+A restart in live mode can trigger regular weather and map requests.
 
-## Ordner
+## Folders
 
-| Ordner | Inhalt |
+| Folder | Content |
 |---|---|
-| `windows/` | Doppelklick-Starter und einmalige SSH-Einrichtung |
-| `raspberry_pi/` | Linux-Starter |
-| `wetterstation/` | Gemeinsamer Programmkern, nach Aufgaben gruppiert |
-| `tools/` | Offline-Prüfung, Update-/Sicherungswerkzeuge, historische Migration |
-| `tests/` | Automatisierte Tests, Browser- und Displayprüfungen |
-| `docs/` | Aktuelle Anleitungen und gekennzeichnete Historie |
-| `build/` | Erzeugte Pakete, isolierte Prüfbilder und Berichte; nicht in Git |
-| `archive/` | Vollständige vertrauliche Sicherung und alte Transferpakete; nicht in Git |
-| `private/` | Unveränderte Einstellungen, Schlüssel, Zertifikate, Caches und Zähler; nicht in Git |
+| `windows/` | Double-click starters and one-time SSH setup |
+| `raspberry_pi/` | Linux starters |
+| `wetterstation/` | Shared program core, grouped by task |
+| `tools/` | Offline checks, update/backup tools, historical migration |
+| `tests/` | Automated tests, browser and display checks |
+| `docs/` | Current guides and labelled history |
+| `build/` | Generated packages, isolated check images and reports; not in Git |
+| `archive/` | Complete confidential backup and old transfer packages; not in Git |
+| `private/` | Unchanged settings, keys, certificates, caches and counters; not in Git |
 
-Die wenigen Starter im Hauptordner bleiben als Weiterleitungen für vorhandene
-Verknüpfungen erhalten. Programmcode liegt in den zugehörigen Unterordnern.
+The few starters in the root folder remain as redirects for existing
+shortcuts. Program code lives in the corresponding subfolders.
 
-## Anleitungen und Prüfung
+## Guides and checks
 
-- [Ordnerbereinigung, Ressourcen und Browser-Ruhemodus](docs/OPTIMIZATION.md)
-- [Pi-Update und Wiederherstellung](docs/UPDATE.md)
-- [Struktur und Entwicklung](docs/STRUCTURE.md)
-- [Funktionsstand und Grenzen der Abnahme](docs/FEATURE_STATUS.md)
-- [Projektentscheidungen](PROJEKTPLAN.md)
-- [Frühere ausführliche Funktionsdokumentation](docs/HISTORY.md)
+- [Folder cleanup, resources and browser idle mode](docs/OPTIMIZATION.md)
+- [Pi update and recovery](docs/UPDATE.md)
+- [Structure and development](docs/STRUCTURE.md)
+- [Designer](docs/DESIGNER.md)
+- Decisions with reasons and current status (repository only, not on the Pi):
+  [ai/DECISIONS.md](ai/DECISIONS.md), [ai/STATUS.md](ai/STATUS.md)
 
-Python 3.11 oder neuer mit Tkinter ist erforderlich. `requirements.txt` beziehungsweise
-`pyproject.toml` beschreiben die Entwicklungsbibliotheken. Die bestehende Pi-Installation
-wird funktional geprüft; Updates installieren keine Bibliotheken oder Betriebssystempakete.
+Python 3.11 or newer with Tkinter is required. `requirements.txt` and
+`pyproject.toml` describe the development libraries. The existing Pi installation
+is checked functionally; updates do not install libraries or operating system packages.
 
-Isolierte Offline-Tests: `python tools/offline_tests.py`. Externe Python-Verbindungen
-werden dabei gesperrt; lokale HTTPS-Tests verwenden Dummy-Daten. Browserprüfungen sind
-separat beschrieben und benötigen einen vorhandenen Browser mit Playwright.
+Isolated offline tests: `python tools/offline_tests.py`. External Python connections
+are blocked; local HTTPS tests use dummy data. Browser checks are described
+separately and need an installed browser with Playwright.
 
-Diese öffentliche Fassung verwendet Potsdam als Beispielort. Eigene Einstellungen
-werden lokal unter `private/` abgelegt. Die Widget-Demo verwendet Beispieldaten.
+This public version uses Potsdam as the sample location. Your own settings
+are stored locally under `private/`. The widget demo uses sample data.
+
+## Data sources and licences
+
+- **Base map Germany:** [basemap.de WMS](https://sgx.geodatenzentrum.de/wms_basemapde?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.1.1),
+  layer `de_basemapde_web_raster_farbe`. Licence [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
+  attribution "© GeoBasis-DE / BKG 2026 · CC BY 4.0"; [terms of use](https://basemap.de/produkte-und-dienste/web-raster/).
+- **Radar Germany:** [DWD WMS](https://maps.dwd.de/geoserver/wms?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0)
+  (WN radar composite), attribution "Datenbasis: Deutscher Wetterdienst"; see
+  [DWD geo services](https://www.dwd.de/DE/leistungen/geodienste/help/nutzung_geodienste.html?lsbId=621762)
+  and [WN product sheet](https://www.dwd.de/DE/leistungen/radarprodukte/radarkomposit_wn_hdf5.pdf?__blob=publicationFile&v=4).
+- **Outside Germany:** tiles from OpenStreetMap ([contributors and licence](https://www.openstreetmap.org/copyright),
+  [tile usage policy](https://operations.osmfoundation.org/policies/tiles/)) and radar from
+  [RainViewer](https://www.rainviewer.com/api/weather-maps-api.html). International maps always show
+  "© OpenStreetMap-Mitwirkende · RainViewer". The client identifies itself as `WetterstationPreview/2.0`,
+  uses the HTTP cache (at least seven days without freshness information) and loads only the needed tiles at zoom 7.
+- **Weather:** [OpenWeather One Call 4.0](https://openweathermap.org/api/one-call-4) and
+  [Geocoding](https://openweathermap.org/api/geocoding-api) with your own key.
+
+At the user's request, the attribution line of the German map is hidden on the display; the details
+are listed here. This does not confirm an exception from the terms of use.

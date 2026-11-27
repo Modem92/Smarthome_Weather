@@ -1,3 +1,3 @@
 @echo off
-call "%~dp0windows\Pi aktualisieren.cmd"
+call "%~dp0windows\Update Pi.cmd"
 exit /b %ERRORLEVEL%
