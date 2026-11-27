@@ -1,127 +1,133 @@
-# Entscheidungen (neueste oben)
+# Decisions (newest first)
 
-Übernommen am 27.11.2026 aus PROJEKTPLAN.md, AGENTS.md, der alten CLAUDE.md und docs/ (alter Wortlaut in der Git-Historie, Commit `bbc838e`).
+Carried over on 27.11.2026 from PROJEKTPLAN.md, AGENTS.md, the old CLAUDE.md and docs/ (original wording in the Git history, commit `bbc838e`).
 
-## 2026-11-27: Planungsdoku nach CLAUDE.md und ai/ überführt, Altdateien gelöscht
-- Warum: 13 Dateien mit doppelten und teils widersprüchlichen Ständen. Künftige Sessions brauchen eine Quelle für Stabiles (CLAUDE.md), Stand (ai/STATUS.md) und Gründe (hier).
-- Verworfen: Dateien als „historisch“ markiert behalten (weil weiter doppelt gepflegt würde). Gelöschte Pi-Doku steht in `RETIRED_FILES`, damit sie beim nächsten Update auch auf dem Pi entfernt wird.
-- Status: gilt
+## 2026-11-27: Repository language English, UI stays German
+- Decision: docs, ai/, CLAUDE.md part B, GitHub issues and Windows starter file names are English (`Start weather station.cmd`, `Design weather station.cmd`, `Widget demo.cmd`, `Update Pi.cmd`, `Set up SSH once.cmd`). UI texts on display, phone and designer stay German. Section headings of CLAUDE.md part B stay German because part A refers to them by name.
+- Why: user request, matching the workflow rule "code, comments, commits in English"; the users of the device read German.
+- Rejected: translating UI texts too (not wanted); keeping German starter names (user accepted that existing shortcuts break).
+- Status: valid
 
-## 2026-11-26: Öffentliches GitHub-Repo mit bereinigter Fassung
-- Warum: Nutzerauftrag. Gerätespezifische Werte, private Daten und die alte lokale Git-Historie bleiben lokal; Beispielort Potsdam.
-- Verworfen: privates Repo mit Codex Cloud (Idee vom 24.10., nie freigegeben).
-- Status: gilt
+## 2026-11-27: Planning docs moved into CLAUDE.md and ai/, old files deleted
+- Why: 13 files with duplicated and partly contradictory states. Future sessions need one source for stable facts (CLAUDE.md), current state (ai/STATUS.md) and reasons (here).
+- Rejected: keeping the files marked as "historical" (because they would still be maintained twice). The deleted Pi docs are listed in `RETIRED_FILES` so they are also removed on the Pi at the next update.
+- Status: valid
 
-## 2026-10-28: Optimierung für Pi und OneDrive
-- Warum: Nutzer meldete am 26.10. CPU-Spitzen und mehrsekündiges Stocken beim ersten Seitenwechsel am Pi. Vorgabe: erst messen, dann entscheiden; keine vorweggenommene Abschaffung der Handy-Verbindung.
-- Umsetzung: Browser berechnet Ziehen/Skalieren lokal und sendet erst nach fertiger Geste; Abfragepause nach 60 s Inaktivität; Server-Leerlauf 500 ms; Bildvorbereitung im Hintergrund, Übernahme nur im Tk-Hauptthread; Bildcache begrenzt; Designer-Laufzeit und Prüfkopien außerhalb OneDrive.
-- Höherer Speicherbedarf wird akzeptiert (Preis für wiederverwendete Schrift-/Darstellungsdaten). ImageTk-Ausfall: Rückfall auf native Tk-PNG statt neuer Systempakete.
-- Status: gilt (Messwerte in docs/OPTIMIZATION.md)
+## 2026-11-26: Public GitHub repo with a cleaned-up version
+- Why: user request. Device-specific values, private data and the old local Git history stay local; example location Potsdam.
+- Rejected: private repo with Codex Cloud (idea from 24.10., never approved).
+- Status: valid
 
-## 2026-10-28: Designer-Bedienung absichern
-- Warum: versehentliche Wertänderungen und Datenverlust.
-- Mausrad auf Eingabefeldern gesperrt; geschützte Datenblöcke lassen sich nicht löschen; ungültige Eingaben behalten den letzten gültigen Entwurf.
-- Status: gilt
+## 2026-10-28: Optimization for Pi and OneDrive
+- Why: on 26.10. the user reported CPU spikes and multi-second stuttering on the first page switch on the Pi. Requirement: measure first, then decide; do not abolish the phone connection in advance.
+- Implementation: the browser computes drag/scale locally and sends only after the gesture is finished; polling pause after 60 s of inactivity; server idle 500 ms; image preparation in the background, adopted only in the Tk main thread; image cache limited; designer runtime and check copies outside OneDrive.
+- Higher memory use is accepted (price for reused font/rendering data). ImageTk failure: fall back to native Tk PNG instead of new system packages.
+- Status: valid (measurements in docs/OPTIMIZATION.md)
 
-## 2026-10-27: Grafischer Designer, Gestaltungsformat 4
-- Warum: Nutzer will Widgets selbst gestalten, ohne Code oder KI.
-- Format 4 ergänzt frei bearbeitbare Inhaltsblöcke, Widgets behalten Typ und Datenbindung; Formate 2 und 3 werden verlustfrei gelesen; inkompatible Pi-Programme dürfen Gestaltungen nicht übernehmen.
-- Qt (PySide6) nur am PC, Tk auf dem Pi (Pi bekommt keine Qt-Abhängigkeit); gemeinsamer Pillow-Renderer.
-- Handy-Änderungen sind begrenzte Anordnungsoperationen mit Versionsprüfung, damit die PC-Gestaltung nie ersetzt wird. Import/Export ohne Schlüssel und Zähler.
-- Verworfen: erweiterter Gestaltungseditor am Handy (Nutzer: PC-Anwendung genügt).
-- Status: gilt
+## 2026-10-28: Securing designer operation
+- Why: accidental value changes and data loss.
+- Mouse wheel locked on input fields; protected data blocks cannot be deleted; invalid input keeps the last valid draft.
+- Status: valid
 
-## 2026-10-27: Zusatzzeitreihen nur nach Freigabe pro Gerät
-- Warum: Eine kopierte Gestaltung darf keine zusätzlichen Abrufe auslösen. Grundversorgung (3 Anfragen/5 Min) und 24 Reserveanfragen haben Vorrang.
-- Offener Vorschlag aus der Spec: Minutenregen alle 30 Min, Viertelstundenwetter alle 60 Min.
-- Status: gilt
+## 2026-10-27: Graphical designer, design format 4
+- Why: the user wants to design widgets themselves, without code or AI.
+- Format 4 adds freely editable content blocks, widgets keep their type and data binding; formats 2 and 3 are read losslessly; incompatible Pi programs must not accept designs.
+- Qt (PySide6) only on the PC, Tk on the Pi (the Pi gets no Qt dependency); shared Pillow renderer.
+- Phone changes are limited arrangement operations with version check, so the PC design is never replaced. Import/export without keys and counters.
+- Rejected: extended design editor on the phone (user: PC application is enough).
+- Status: valid
 
-## 2026-10-26: Updatefenster mit klaren Zuständen
-- Warum: Nutzer hielt den unbestimmten Fortschrittsbalken nach Erfolg für einen Hänger. Laufend, Erfolg und Fehler müssen sofort unterscheidbar sein.
-- Status: gilt
+## 2026-10-27: Additional time series only after per-device approval
+- Why: a copied design must not trigger additional requests. Base supply (3 requests/5 min) and 24 reserve requests take priority.
+- Open proposal from the spec: minute rain every 30 min, quarter-hour weather every 60 min.
+- Status: valid
 
-## 2026-10-25: Gemeinsamer Programmkern und manueller Doppelklick-Updater
-- Warum: Ordner sollte nach Kern, Startern, Werkzeugen, Tests und Doku geordnet werden, ohne private Daten oder Budgetidentität zu verschieben → `paths.py` bestimmt den bisherigen Projektordner.
-- Updater: eingefrorenen Stand offline testen und paketieren, vollständig hochladen, dann laufende App geordnet beenden, sichern, installieren, prüfen; Wiederstart nur, wenn sie vorher lief, im bisherigen Modus. Pi-Layout und private Daten bleiben.
-- `tools/pi/update.py` nur mit Standardbibliothek, damit Wiederherstellung aus dem Pi-Zwischenordner funktioniert. Wiederherstellung setzt keine Zähler, Caches oder Zertifikate zurück (kein Budget-Rücksprung).
-- SSH-Schlüssel außerhalb OneDrive im Windows-Schlüsseldienst; Registrierung per Skript über stdin (PowerShell 5.1 entfernte eingebettete Anführungszeichen).
-- Prozessprüfung untersucht nur mögliche Wetterstation-Prozesse (`/proc/…/cwd` fremder Prozesse war nicht lesbar).
-- Verworfen: automatische Updates, Updater-Autostart, Zeitpläne, Betriebssystem-/Bibliotheksupdates.
-- Status: gilt
+## 2026-10-26: Update window with clear states
+- Why: the user took the indeterminate progress bar after success for a hang. Running, success and error must be distinguishable at once.
+- Status: valid
 
-## 2026-10-24: Passive Anzeige, Bedienung per Handy-Pairing
-- Warum: Nutzer will eine ruhige Anzeige ohne lokale Knöpfe und Felder.
-- Jeder Browser fordert einen eigenen Einmalcode an, der nur am Display erscheint; 2 Minuten gültig, max. 4 wartende Anfragen, 8 Sitzungen bis Abmeldung oder Neustart, alles nur im Arbeitsspeicher. TLS, sichere Cookies, Host-/Origin-Prüfung, CSRF-Schutz und Versuchslimits bleiben.
-- Ersetzt: lokale Einstellungsdialoge, manuelle Handy-Aktivierung, 20-Minuten-Sitzungen, „Verbindung bleibt nach Schließen des Dialogs aktiv“ (18.10.).
-- Status: gilt
+## 2026-10-25: Shared program core and manual double-click updater
+- Why: the folder was to be organized by core, starters, tools, tests and docs without moving private data or the budget identity → `paths.py` determines the existing project folder.
+- Updater: test and package a frozen state offline, upload it completely, then stop the running app in an orderly way, back up, install, verify; restart only if it was running before, in the previous mode. Pi layout and private data are kept.
+- `tools/pi/update.py` uses only the standard library, so recovery works from the Pi staging folder. Recovery does not reset counters, caches or certificates (no budget rollback).
+- SSH key outside OneDrive in the Windows key service; registration by script via stdin (PowerShell 5.1 stripped embedded quotation marks).
+- Process check inspects only possible weather station processes (`/proc/…/cwd` of foreign processes was not readable).
+- Rejected: automatic updates, updater autostart, schedules, operating system/library updates.
+- Status: valid
 
-## 2026-10-24: HTTPS nur an echter Heimnetz-IPv4
-- Warum: Am Pi wurde dem Nutzer eine `127…`-Adresse angezeigt. Aktive Schnittstellen auslesen, nie Loopback oder Wildcard; ohne Heimnetzadresse kein Start.
-- Verworfen: Firewall-/Routeränderungen, automatisches Zertifikatsvertrauen, öffentliche Bereitstellung.
-- Status: gilt
+## 2026-10-24: Passive display, operation via phone pairing
+- Why: the user wants a calm display without local buttons and fields.
+- Each browser requests its own one-time code, which appears only on the display; valid for 2 minutes, max. 4 waiting requests, 8 sessions until logout or restart, all in memory only. TLS, secure cookies, host/origin check, CSRF protection and attempt limits remain.
+- Replaces: local settings dialogs, manual phone activation, 20-minute sessions, "connection stays active after closing the dialog" (18.10.).
+- Status: valid
 
-## 2026-10-24: Internationale Orte, Ortszeit und Karte
-- Warum: Nutzerauftrag; ersetzt die Beschränkung auf Deutschland vom 18.10.
-- Ort und ISO-Land werden gemeinsam gespeichert; Geocodierung auf das Land begrenzt; Wetter-/Ortscache nach Ort und Land getrennt, verspätete Ergebnisse verworfen (gleichnamige Orte dürfen keine Daten teilen).
-- Uhr und Kalender in Wetter-Ortszeit, bei unbekannter Zeitzone gekennzeichnetes UTC.
-- Deutschland: BKG/DWD. Ausland: OSM + RainViewer bei festem Zoom 7, nur benötigte Kacheln, HTTP-Cache (ohne Frischeangabe ≥ 7 Tage), Anwendungskennung, keine Vorabdownloads. Abdeckungsmaske: fehlendes Radar nie als trocken darstellen. Quellen auf internationalen Karten immer sichtbar (Lizenzpflicht OSM).
-- Regenzugpfeile nur für DWD.
-- Status: gilt
+## 2026-10-24: HTTPS only on a real home-network IPv4
+- Why: on the Pi the user was shown a `127…` address. Read the active interfaces, never loopback or wildcard; without a home-network address, no start.
+- Rejected: firewall/router changes, automatic certificate trust, public exposure.
+- Status: valid
 
-## 2026-10-24: Widget-Seiten
-- 12×8-Raster je Seite, 1–12 Seiten, vier Startseiten; Speichern direkt nach jeder Geste (kein Übernehmen-Knopf), 20 Schritte Rückgängig; bei Kollision bleibt die letzte gültige Anordnung.
-- Gerät wechselt Seiten nur manuell; automatischer Wechsel ist nur eine Idee.
-- Status: gilt
+## 2026-10-24: International locations, local time and map
+- Why: user request; replaces the restriction to Germany from 18.10.
+- Location and ISO country are stored together; geocoding limited to the country; weather/location cache separated by location and country, late results discarded (same-named places must not share data).
+- Clock and calendar in the weather location's local time, labeled UTC if the time zone is unknown.
+- Germany: BKG/DWD. Abroad: OSM + RainViewer at fixed zoom 7, only needed tiles, HTTP cache (≥ 7 days if no freshness is given), application identifier, no prefetching. Coverage mask: missing radar is never shown as dry. Sources always visible on international maps (OSM license requirement).
+- Rain-movement arrows only for DWD.
+- Status: valid
 
-## 2026-10-24: Vorhersagen einreihig, Inhalte zentriert
-- Acht Stunden und fünf Tage je in einer Reihe gleich breiter Spalten; Trennlinien nur zwischen Vorhersagespalten; Widget-Rahmen 2 px bei 1024×600, skalierend.
-- Status: gilt
+## 2026-10-24: Widget pages
+- 12×8 grid per page, 1–12 pages, four start pages; saving right after each gesture (no apply button), 20 undo steps; on collision the last valid arrangement stays.
+- The device switches pages only manually; automatic switching is just an idea.
+- Status: valid
 
-## 2026-10-23: One Call 4.0 im festen Fünf-Minuten-Raster, Grenze 1000
-- Warum: Nutzer hat das One-Call-Abo nach eigener Angabe auf 1000/Tag gesetzt (Konto nicht von uns geprüft).
-- 3 Anfragen pro Lauf (`current`, `timeline/1h`, `timeline/1day`) zu festen Terminen deutscher Zeit; manuelle Abrufe verschieben das Raster nicht; kein Nachhol-Burst nach Standby; Paginierung `next`/`prev` nie folgen.
-- Grenze 1000 je deutschem Kalendertag und je UTC-Anbietertag, ohne Zählerhistorie zurückzusetzen. Ersetzt die frühere 999er-Grenze.
-- Regenkarte nutzt dasselbe Raster; ersetzt den 5-/15-Minuten-Takt und das Nachladen beim Seitenwechsel.
-- Status: gilt
+## 2026-10-24: Forecasts in a single row, content centered
+- Eight hours and five days each in one row of equally wide columns; separator lines only between forecast columns; widget frame 2 px at 1024×600, scaling.
+- Status: valid
 
-## 2026-10-23: Kartenstil nach Bildreferenz
-- Helle farbige BKG-Straßenkarte, weiche transparente DWD-Radarflächen; Ortsname und orange-weißer Marker über dem Radar.
-- Ersetzt: DOP20-Luftbild (bis 18.10.) und graue Grundkarte (18.–23.10.). Verworfen: Reliefkarte mit Höhenlinien, eigene Beschriftungsebene, Legende.
-- Quellenzeile auf der deutschen Karte auf Nutzerwunsch ausgeblendet; Quellen und Lizenzen stehen im README. Eine rechtliche Ausnahme ist damit nicht bestätigt.
-- Status: gilt
+## 2026-10-23: One Call 4.0 on a fixed five-minute grid, limit 1000
+- Why: by the user's own statement they set the One Call subscription to 1000/day (account not verified by us).
+- 3 requests per run (`current`, `timeline/1h`, `timeline/1day`) at fixed German-time slots; manual fetches do not shift the grid; no catch-up burst after standby; never follow `next`/`prev` pagination.
+- Limit 1000 per German calendar day and per UTC provider day, without resetting counter history. Replaces the earlier limit of 999.
+- The rain map uses the same grid; replaces the 5/15-minute cycle and the reload on page switch.
+- Status: valid
 
-## 2026-10-23: Regenzug aus zwei DWD-Aufnahmen
-- Höchstens 3 dezente, unbewegte Pfeile; nur Richtung, keine Geschwindigkeit, Legende oder Bodenwind-Ersatz. Korrelation ≥ 0,85 und 120 km/h dienen nur als Plausibilitätsfilter. Karte erscheint ohne Warten auf die Analyse.
-- Status: gilt
+## 2026-10-23: Map style after image reference
+- Light colored BKG street map, soft transparent DWD radar areas; location name and orange-white marker above the radar.
+- Replaces: DOP20 aerial image (until 18.10.) and gray base map (18.–23.10.). Rejected: relief map with contour lines, separate label layer, legend.
+- Source line on the German map hidden at the user's request; sources and licenses are in the README. A legal exemption is not confirmed by this.
+- Status: valid
 
-## 2026-10-23: Bildvorbereitung im Hintergrund
-- Warum: Jedes Zeichnen dekodierte beide PNGs (366,9 ms → 0,20 ms).
-- Fertige Bildpaare wiederverwenden; Tk-Bilder nur im UI-Thread; höchstens eine Vorbereitung plus ein aktueller Folgeauftrag; überholte Aufträge nach Orts-/Größenwechsel verwerfen.
-- Status: gilt
+## 2026-10-23: Rain movement from two DWD images
+- At most 3 subtle, static arrows; direction only, no speed, legend or surface-wind substitute. Correlation ≥ 0.85 and 120 km/h serve only as plausibility filters. The map appears without waiting for the analysis.
+- Status: valid
 
-## 2026-10-19: Displaygröße 1024×600
-- Start im Vollbild, F11 wechselt zum Fenster; Größenänderungen lösen keine Abrufe aus.
-- Status: gilt
+## 2026-10-23: Image preparation in the background
+- Why: every draw decoded both PNGs (366.9 ms → 0.20 ms).
+- Reuse finished image pairs; Tk images only in the UI thread; at most one preparation plus one current follow-up job; discard outdated jobs after a location/size change.
+- Status: valid
 
-## 2026-10-18: Fehlerbehandlung und Backoff
-- 401/403: Pause bis zum Schlüsselwechsel. 429: alle Endpunkte warten `Retry-After` (min. 60 s, sonst 15 Min). Netzwerk/5xx: nur betroffener Endpunkt, 60 s bis 30 Min.
-- Wetter-Cache max. 6 h, Radar-Rückfall max. 60 Min. Bedienung wird nach Fehlern zuverlässig freigegeben.
-- Status: gilt
+## 2026-10-19: Display size 1024×600
+- Start in fullscreen, F11 switches to windowed; size changes trigger no fetches.
+- Status: valid
 
-## 2026-10-18: Lokaler Budgetzähler, fail-closed
-- Warum: Reservierung vor jedem HTTP-Abruf, damit kein Absturz Abrufe unzählbar macht. Zusätzlich UTC-Anbietertag, weil sonst Verbrauch über die Anbietergrenze freigegeben werden könnte. Bei unbekanntem Tagesvorverbrauch (Ersteinrichtung) wird gesperrt.
-- Zähler pro Gerät, weil OneDrive keine geräteübergreifende atomare Zählung liefert → PC-Live und Pi-Live nie gleichzeitig.
-- Starter setzt `WETTERSTATION_BUDGET_ROOT` nur für den eigenen Prozess (umgeleiteter AppData-Pfad führte zu einem anderen Zähler). Verworfen: globale Umgebungsvariable.
-- Status: gilt
+## 2026-10-18: Error handling and backoff
+- 401/403: pause until the key is changed. 429: all endpoints wait `Retry-After` (min. 60 s, otherwise 15 min). Network/5xx: only the affected endpoint, 60 s to 30 min.
+- Weather cache max. 6 h, radar fallback max. 60 min. Operation is reliably released after errors.
+- Status: valid
 
-## 2026-10-18: Einstellungen und Schlüssel unter `private/` im Projekt
-- Warum: ausdrücklicher Nutzerwunsch; derselbe projektrelative Pfad auf allen PCs; OneDrive darf den Ordner samt unverschlüsselter Datei synchronisieren. `private/` ist Git-ignoriert.
-- Verworfen: Umgebungsvariable für den Schlüssel, Speicherung im Benutzerordner (alte Geräteschlüssel einmalig migriert, nie überschrieben).
-- Ein gespeicherter Schlüssel aktiviert keine Liveabrufe.
-- Status: gilt
+## 2026-10-18: Local budget counter, fail-closed
+- Why: reserve before every HTTP fetch so that no crash makes fetches uncountable. Additionally a UTC provider day, because otherwise usage beyond the provider limit could be allowed. If the prior daily usage is unknown (initial setup), block.
+- Counter per device, because OneDrive provides no cross-device atomic counting → PC live and Pi live never at the same time.
+- The starter sets `WETTERSTATION_BUDGET_ROOT` only for its own process (a redirected AppData path led to a different counter). Rejected: global environment variable.
+- Status: valid
 
-## 2026-10-18: Grundsätze der Entwicklung
-- Zuerst am Windows-PC mit virtuellem Display, Python als Basis; Pi mit Netzteil (sparsamere Optionen offen); vorhandenes LCD vor E-Ink.
-- Erst funktionales Grundgerüst; endgültige UI gestaltet der Nutzer selbst.
-- Innerhalb freigegebener Features ist die technische Umsetzung frei; neue Features und Kontoaktionen nicht.
-- Status: gilt
+## 2026-10-18: Settings and key under `private/` in the project
+- Why: explicit user wish; same project-relative path on all PCs; OneDrive may sync the folder including the unencrypted file. `private/` is Git-ignored.
+- Rejected: environment variable for the key, storage in the user folder (old device keys migrated once, never overwritten).
+- A stored key does not enable live fetches.
+- Status: valid
+
+## 2026-10-18: Development principles
+- First on the Windows PC with a virtual display, Python as the base; Pi with power supply (more frugal options open); existing LCD before E-Ink.
+- First a functional skeleton; the final UI is designed by the user.
+- Within approved features the technical implementation is free; new features and account actions are not.
+- Status: valid

@@ -75,55 +75,61 @@ Nur am Ende einer abgeschlossenen Aufgabe (nicht bei Zwischenantworten), unter `
 💡 Ratschlag: nur wenn er wirklich hilft.
 
 <!-- TEIL B: Projekt. Nur Projektspezifisches. Nichts, was Claude aus dem Code lesen kann. -->
-# Projekt: Wetterstation (`wetterstation`)
-- Zweck: Passive Wetteranzeige (Uhr, Wetter, Vorhersage, Regenkarte) für Raspberry Pi und Windows aus einer gemeinsamen Codebasis; Einstellungen und Widget-Anordnung per Handy im Heimnetz, Gestaltung im Qt-Designer am PC.
-- Stack: Python ≥3.11 mit Tkinter, Pillow, cryptography, tzdata; PySide6 nur im PC-Designer. Tests mit unittest, Browserprüfungen mit Node/Playwright. Kein Linter, keine CI.
-- Zielgerät: Raspberry Pi 3 Model A Plus, Debian 12 Bookworm, Python 3.11.2 (aarch64), Display 1024×600. Öffentliche Fassung mit Beispielort Potsdam.
+# Projekt: Weather station (`wetterstation`)
+<!-- Section headings stay German because part A refers to them by name; content is English. -->
+- Purpose: passive weather display (clock, weather, forecast, rain map) for Raspberry Pi and Windows from one shared codebase; settings and widget arrangement via phone on the home network, visual design in the Qt designer on the PC.
+- Stack: Python ≥3.11 with Tkinter, Pillow, cryptography, tzdata; PySide6 only in the PC designer. Tests with unittest, browser checks with Node/Playwright. No linter, no CI.
+- Target device: Raspberry Pi 3 Model A Plus, Debian 12 Bookworm, Python 3.11.2 (aarch64), display 1024×600. The public version uses Potsdam as the sample location.
 
 ## Befehle
-- Starten: `python -m wetterstation` (live, nur mit Freigabe) · Demo: `python -m wetterstation --widget-demo` · Designer: `python -m wetterstation.designer.app --workspace <temp-ordner>`
-- Einzelnen Test: `python tools/offline_tests.py test_widgets.WidgetModelTests`   Alle Tests: `python tools/offline_tests.py --report build/checks/offline-tests.txt`
-- Visuell: `python tests/display_visual_check.py`, `python tests/designer_scale_check.py` (Ausgaben unter `build/checks/`)
-- Browser: `python tests/widget_demo.py` starten, dann `node tests/widget_browser_check.cjs` bzw. `pairing_`/`designer_phone_`/`international_browser_check.cjs`
-- Designer-Abnahme mit Pi-Paketbau: `python tools/designer_acceptance.py` · Workspace-Wartung (Prüfmodus): `python tools/workspace_maintenance.py`
-- Pi-Update: `windows/Pi aktualisieren.cmd` (nur mit Freigabe; Ablauf in docs/UPDATE.md)
+- Run: `python -m wetterstation` (live, only with approval) · Demo: `python -m wetterstation --widget-demo` · Designer: `python -m wetterstation.designer.app --workspace <temp-dir>`
+- Single test: `python tools/offline_tests.py test_widgets.WidgetModelTests`   All tests: `python tools/offline_tests.py --report build/checks/offline-tests.txt`
+- Visual: `python tests/display_visual_check.py`, `python tests/designer_scale_check.py` (output under `build/checks/`)
+- Browser: start `python tests/widget_demo.py`, then `node tests/widget_browser_check.cjs` or `pairing_`/`designer_phone_`/`international_browser_check.cjs`
+- Designer acceptance incl. Pi package build: `python tools/designer_acceptance.py` · Workspace maintenance (check mode): `python tools/workspace_maintenance.py`
+- Pi update: `windows/Update Pi.cmd` (only with approval; procedure in docs/UPDATE.md)
 
 ## Struktur (nur Einstiegspunkte)
-- `wetterstation/ui/`: Tk-Anzeige (`app.py`), `dashboard.py` zeichnet, `widgets.py` Widgettypen (`CATALOG`) und Standardlayout
-- `wetterstation/weather/`: Geocodierung, Abrufe, Ortszeit · `maps/`: DE-Karte (BKG/DWD), international (OSM/RainViewer), Regenzug
-- `wetterstation/storage/`: Einstellungen, Schlüssel, `openweather_budget.py` · `paths.py`: einziger Ort für Projekt-/Privatpfade
-- `wetterstation/mobile/`: HTTPS-Server, Pairing, Layout-API; Browsercode in `web/` · `designer/`: Qt-Designer (`app.py`, `model.py`, `render.py`, `runtime.py`)
-- `tools/pi/update.py`: Pi-Paket und -Installation (nur Standardbibliothek) · `windows/`, `raspberry_pi/`: Starter. Rootdateien (`app.py`, `pi_update.py`, `start_*`) sind nur Kompatibilitätseinstiege.
-- Menschen-Doku: README.md, docs/UPDATE.md, docs/DESIGNER.md, docs/STRUCTURE.md, docs/OPTIMIZATION.md
+- `wetterstation/ui/`: Tk display (`app.py`), `dashboard.py` draws, `widgets.py` widget types (`CATALOG`) and default layout
+- `wetterstation/weather/`: geocoding, requests, local time · `maps/`: German map (BKG/DWD), international (OSM/RainViewer), rain movement
+- `wetterstation/storage/`: settings, keys, `openweather_budget.py` · `paths.py`: the only place for project/private paths
+- `wetterstation/mobile/`: HTTPS server, pairing, layout API; browser code in `web/` · `designer/`: Qt designer (`app.py`, `model.py`, `render.py`, `runtime.py`)
+- `tools/pi/update.py`: Pi package and installation (standard library only) · `windows/`, `raspberry_pi/`: starters. Root files (`app.py`, `pi_update.py`, `start_*`) are compatibility entry points only.
+- Human docs: README.md, docs/UPDATE.md, docs/DESIGNER.md, docs/STRUCTURE.md, docs/OPTIMIZATION.md
 
 ## Referenzbeispiele
-- Test wie `tests/test_widgets.py` (unittest, temporärer Speicher, Dummy-Schlüssel), Widgettyp wie die Einträge in `CATALOG` (`wetterstation/ui/widgets.py`), Pi-relevante Datei wie die Einträge in `FILES` (`tools/pi/update.py`)
+- Test like `tests/test_widgets.py` (unittest, temporary storage, dummy key), widget type like the entries in `CATALOG` (`wetterstation/ui/widgets.py`), Pi-relevant file like the entries in `FILES` (`tools/pi/update.py`)
+
+## Anforderungen (gelten für jede Änderung, mit Warum)
+- Stay light on resources: the target is a Pi 3 A+ with 512 MB RAM, running for days (CPU spikes and SD writes caused stutter before the Oct 2026 optimization).
+- The user keeps full control of the device: nothing is installed automatically, no firewall/router/certificate-trust changes (Pi libraries come from Debian).
+- Public repo: no keys, device data, host names or private data in code, docs, issues or logs.
+- Existing layouts and design data survive every change to display, phone editor or designer (the user's arrangement must not be lost).
+- UI texts (display, phone, designer, messages) stay German; docs, ai/, issues, code, comments and commits are English (user's language decision of 27 Nov 2026).
 
 ## Konventionen (nur Abweichungen vom Standard)
-- Doku und UI-Texte auf Deutsch; Code, Kommentare und Commit-Messages Englisch.
-- Jede Datei, die auf den Pi muss, steht in `FILES` in `tools/pi/update.py`; entfernte Pi-Dateien kommen in `RETIRED_FILES` (sonst bricht der Paketbau bzw. bleiben Altdateien liegen).
-- Private Daten (Einstellungen, Schlüssel, Zertifikate, Caches, Zähler, Layouts) nur unter `private/`, Pfade über `paths.py`.
+- Every file the Pi needs is listed in `FILES` in `tools/pi/update.py`; removed Pi files go into `RETIRED_FILES` (otherwise the package build fails or stale files remain).
+- Private data (settings, keys, certificates, caches, counters, layouts) only under `private/`, paths via `paths.py`.
 
 ## Regeln (aus Korrekturen, mit Warum)
-- Eine notierte Idee ist keine Freigabe: neue Features, Liveabrufe, Pi-Übertragung, Sensoren, Konten, Cloud-Dienste und Veröffentlichung nur nach konkreter Freigabe (Nutzer gibt Umfang jeweils ausdrücklich frei).
-- Entwicklung und Tests nur mit gekennzeichneten Beispieldaten, Dummy-Schlüsseln und temporärem Speicher (echte Einstellungen und Budgetzähler dürfen nie verändert werden).
-- API-Schlüssel nie in Code, Doku, Logs, Screenshots oder HTTP-Antworten (öffentliches Repo; Schlüssel liegt unverschlüsselt in `private/`).
-- PC-Live und Pi-Live nie gleichzeitig mit derselben Budgetidentität (getrennte Kopien haben keine gemeinsame Sperre).
-- `.pi-update-in-progress.json` nie löschen; Wiederherstellung nach docs/UPDATE.md (Marker schützt vor halbem Update).
-- Nichts automatisch installieren, keine Firewall-/Router-/Zertifikatsvertrauensänderungen (Pi-Bibliotheken kommen aus Debian, Nutzer will volle Kontrolle).
-- Tk-Objekte und -Bilder nur im Tk-Hauptthread anlegen/freigeben (sonst Abstürze und Ruckler am Pi).
-- Bestehende Layouts und Gestaltungsdaten bei Änderungen an Display oder Handy-Editor erhalten; bei Wetter-, Karten- oder Budgetänderungen Ortswechsel, Hintergrundarbeit, Cache-Zuordnung und Tageswechsel isoliert testen.
-- Abschlussbericht trennt: was der Code kann, was geprüft wurde, welche Live-/Geräteprüfung aussteht (Offline-Abnahme ersetzt keine Geräteprüfung).
+- A noted idea is not an approval: new features, live requests, Pi transfer, sensors, accounts, cloud services and publishing only after concrete approval (the user approves each scope explicitly).
+- Development and tests only with labelled sample data, dummy keys and temporary storage (real settings and budget counters must never change).
+- Never put API keys in code, docs, logs, screenshots or HTTP responses (public repo; the key is stored unencrypted in `private/`).
+- Never run PC live and Pi live at the same time with the same budget identity (separate copies share no lock).
+- Never delete `.pi-update-in-progress.json`; recover as described in docs/UPDATE.md (the marker protects against a half-applied update).
+- Create/release Tk objects and images only in the Tk main thread (otherwise crashes and stutter on the Pi).
+- For weather, map or budget changes, test location change, background work, cache assignment and day rollover in isolation (these broke before).
+- The final report separates what the code can do, what was checked, and which live/device check is still open (offline acceptance does not replace a device check).
 
 ## Leitentscheidungen (max. 10, Details in ai/DECISIONS.md)
-- Ein gemeinsamer Kern für PC und Pi; `paths.py` hält den bisherigen `private/`-Pfad stabil (Einstellungen und Budgetidentität dürfen nicht wandern).
-- Passive Anzeige, Bedienung nur per Handy mit Einmalcode-Pairing über HTTPS im Heimnetz (keine lokalen Dialoge am Display).
-- Ein Wetterort (Ort + ISO-Land) steuert Wetter, Ortszeit und Karte (gleichnamige Orte dürfen keine Daten teilen).
-- Budgetschutz: Reservierung vor HTTP, max. 1000/Tag (Berlin und UTC), 3 Anfragen alle 5 Minuten haben Vorrang; Zusatzreihen nur per Gerätefreigabe.
-- Fehlende Radarabdeckung nie als „trocken“ darstellen; Quellenangaben auf internationalen Karten immer sichtbar.
-- Designformat 4, ältere Formate lesbar; Qt nur am PC, Tk auf dem Pi.
-- Pi-Updates nur manuell, mit Sicherung, Offline-Prüfung und Wiederstart nur des vorher laufenden Modus.
-- Öffentliches Repo ohne Gerätedaten, private Daten und alte Git-Historie.
+- One shared core for PC and Pi; `paths.py` keeps the existing `private/` path stable (settings and budget identity must not move).
+- Passive display, operated only via phone with one-time-code pairing over HTTPS on the home network (no local dialogs on the display).
+- One weather location (place + ISO country) drives weather, local time and map (places with the same name must not share data).
+- Budget protection: reserve before HTTP, max. 1000/day (Berlin and UTC), 3 requests every 5 minutes take priority; extra series only with per-device approval.
+- Never show missing radar coverage as "dry"; attribution on international maps always visible.
+- Design format 4, older formats readable; Qt only on the PC, Tk on the Pi.
+- Pi updates only manual, with backup, offline check, and restart only of the mode that was running before.
+- Public repo without device data, private data or old Git history.
 
 ## Aktueller Stand
 @ai/STATUS.md

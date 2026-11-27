@@ -1,20 +1,21 @@
 # Status
-## Phase und Ziel
-- Öffentliche Fassung seit 26.11.2026 auf GitHub. Funktional Stand 28.10.2026: Anzeige, Handy-Pairing, internationale Orte, Designer und Optimierung offline abgenommen (389 Tests); Pi im Livebetrieb eingerichtet.
-- Ziel jetzt: offene Live- und Geräteprüfungen abschließen, dann Robustheit.
+## Phase and goal
+- Public version on GitHub since 26.11.2026. Functional state 28.10.2026: display, phone pairing, international locations, designer and optimization accepted offline (389 tests); Pi set up for live operation.
+- Goal now: finish open live and device checks, then robustness.
 
-## Nächste Schritte
-1. Offline-Testsuite auf diesem PC lauffähig machen und grün bekommen (Issue #8). Auf dem Windows-PC fehlt derzeit Python.
-2. Freigabe-abhängige Abnahmen: Zusatzzeitreihen und Designübertragung (#1), Wiederstart live (#3), internationaler Live-Test (#4).
-3. Geräteprüfungen: SSH nach Windows-Neustart (#2), Desktop-Symbol (#6), Autostart/Langzeitbetrieb (#5).
-4. Aufräumen: Pi-Bibliotheken vs. requirements.txt (#9), Pi-Ziel im Updater (#10), Doku-Restverweise (#11), Doppelklick-Absturz auf anderem PC (#7).
+## Next steps
+1. Make the offline test suite run on this PC and get it green (issue #8). Python is currently missing on the Windows PC.
+2. Approval-dependent acceptance: extra time series and design transfer (#1), live restart (#3), international live test (#4).
+3. Device checks: SSH after Windows restart (#2), desktop icon (#6), autostart/long-term operation (#5).
+4. Cleanup: Pi libraries vs. requirements.txt (#9), Pi target in the updater (#10), leftover doc references (#11), double-click crash on another PC (#7).
 
-## Offene Probleme / Fragen an mich
-- Eingabetasten, Stromsparkonzept und E-Ink-Anbindung (Spec-Entwurf: ai/specs/eink.md) sind nicht entschieden.
-- OpenWeather-Kontogrenze 1000/Tag nur laut Nutzerangabe, nie unabhängig geprüft.
-- Sensoren (Hardware, Protokoll) und Langzeit-Datenspeicherung: Lösung nicht festgelegt.
-- Ideen ohne Freigabe: automatischer Seitenwechsel (optional), Markierung auffälliger Messwerte, Datenanalyse, Cloud/ML.
+## Open problems / questions for the user
+- Input buttons, power-saving concept and E-Ink connection (draft spec: ai/specs/eink.md) are undecided.
+- OpenWeather account limit of 1000/day is only per the user's statement, never independently verified.
+- Sensors (hardware, protocol) and long-term data storage: no solution chosen.
+- Ideas without approval: automatic page switching (optional), highlighting unusual readings, data analysis, cloud/ML.
 
-## Zuletzt erledigt (max. 5 Zeilen)
-- 27.11.2026: Workflow-Vorlage eingeführt, Planungsdoku nach CLAUDE.md und ai/ überführt, 11 Issues angelegt.
-- 28.10.2026: Optimierung für Pi und OneDrive, Designer-Korrekturen.
+## Recently done (max. 5 lines)
+- 27.11.2026: repo switched to English (docs, ai/, issues, starter names; UI stays German), CLAUDE.md part A synced with template.
+- 27.11.2026: workflow template introduced, planning docs moved into CLAUDE.md and ai/, 11 issues created.
+- 28.10.2026: optimization for Pi and OneDrive, designer fixes.

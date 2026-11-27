@@ -1,18 +1,18 @@
-# E-Ink-Anzeige (Idee, nicht freigegeben)
+# E-Ink display (idea, not approved)
 
-Status: vorgemerkt am 26.10.2026. Keine Freigabe zur Umsetzung oder Hardwarebeschaffung.
+Status: noted on 26.10.2026. No approval for implementation or hardware purchase.
 
-## Ziel
-Programm an das „Waveshare 7.3inch E Ink Spectra 6 (E6) Full Color E-Paper Display“ mit 800 × 480 Pixeln anpassen (Modell und Auflösung laut Nutzer). Die PC-Vorschau und das 1024×600-LCD bleiben erhalten.
+## Goal
+Adapt the program to the "Waveshare 7.3inch E Ink Spectra 6 (E6) Full Color E-Paper Display" with 800 × 480 pixels (model and resolution as stated by the user). The PC preview and the 1024×600 LCD are kept.
 
-## Vor der Umsetzung festzulegen (Interview)
-- Umfang der Anzeigeanpassung (Layouts für 800×480, Farbpalette Spectra 6)
-- Displayansteuerung (Treiber, Bibliothek, Anschluss am Pi)
-- Aktualisierungsverhalten (Refresh-Takt, Teil-/Vollrefresh) und Zusammenspiel mit dem Fünf-Minuten-Raster
-- Zusammenhang mit offenen Fragen zu Eingabetasten und Stromsparkonzept
+## To be decided before implementation (interview)
+- Scope of the display adaptation (layouts for 800×480, Spectra 6 color palette)
+- Display driver (driver, library, connection to the Pi)
+- Refresh behavior (refresh interval, partial/full refresh) and interplay with the five-minute grid
+- Relation to the open questions about input buttons and the power-saving concept
 
-## Außerhalb des Scopes
-- Hardwarekauf, Sensoren, Änderungen am Budget oder Abrufraster
+## Out of scope
+- Hardware purchase, sensors, changes to the budget or fetch grid
 
-## Teilschritte, Done-Kriterien, End-to-End-Prüfung
-Erst nach Freigabe und Interview ausfüllen.
+## Substeps, done criteria, end-to-end check
+Fill in only after approval and interview.
