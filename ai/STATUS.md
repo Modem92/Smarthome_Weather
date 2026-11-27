@@ -16,6 +16,7 @@
 - Ideas without approval: automatic page switching (optional), highlighting unusual readings, data analysis, cloud/ML.
 
 ## Zuletzt erledigt (recently done, max. 5 lines)
+- 27.11.2026: leak guard (pre-commit hook + gitignored denylist) and gitignored CLAUDE.local.md with device/location facts; repo and history audited clean.
 - 27.11.2026: settings.json and part A synced with template (merge approval, CI rule). main protected by ruleset (PR only, squash). Repo switched to English (docs, ai/, issues, starter names; UI stays German).
 - 27.11.2026: workflow template introduced, planning docs moved into CLAUDE.md and ai/, 11 issues created.
 - 28.10.2026: optimization for Pi and OneDrive, designer fixes.

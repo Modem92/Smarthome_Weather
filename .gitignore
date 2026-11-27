@@ -16,6 +16,8 @@ __pycache__/
 venv/
 
 # Lokale Umgebungsvariablen und Geheimnisse
+# CLAUDE.local.md holds device and location facts for Claude Code sessions.
+CLAUDE.local.md
 .env
 .env.*
 !.env.example

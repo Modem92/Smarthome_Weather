@@ -7,3 +7,4 @@
 *.json text eol=lf
 *.js text eol=lf
 *.cjs text eol=lf
+tools/git-hooks/* text eol=lf

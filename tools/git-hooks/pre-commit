@@ -1,0 +1,11 @@
+#!/bin/sh
+# Blocks commits that add private values (see tools/check_private_leaks.py).
+# Activate once per clone: git config core.hooksPath tools/git-hooks
+root=$(git rev-parse --show-toplevel)
+for py in python3 python py; do
+    if command -v "$py" >/dev/null 2>&1 && "$py" -c "import sys; sys.exit(sys.version_info < (3, 11))" >/dev/null 2>&1; then
+        exec "$py" "$root/tools/check_private_leaks.py" --staged --repo "$root"
+    fi
+done
+echo "pre-commit: no Python >= 3.11 found, private-leak check NOT run" >&2
+exit 1
