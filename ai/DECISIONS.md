@@ -2,6 +2,12 @@
 
 Carried over on 27.11.2026 from PROJEKTPLAN.md, AGENTS.md, the old CLAUDE.md and docs/ (original wording in the Git history, commit `bbc838e`).
 
+## 2026-11-27: Development venv at `%LOCALAPPDATA%/Smarthome_Weather/venv`
+- Decision: Windows starters look there first, then at the old `%LOCALAPPDATA%/Wetterstation/venv`, then bundled runtime, `py`, PATH. Budget root and designer runtime stay under `Wetterstation`.
+- Why: user named the folder after the repo. The old path stays as fallback so existing PCs keep working; the budget identity must not move (see stable `private/` path decision).
+- Rejected: moving the whole `Wetterstation` folder (would change the budget identity).
+- Status: valid
+
 ## 2026-11-27: Ruleset "Protect main" on GitHub
 - Decision: main only changes via pull request (no required approval), no force-push, no deletion, squash merge only; branches are deleted after merge. CI as a required check follows with #12.
 - Why: user request; matches part A (never push to main, never force-push). No required approval because Claude merges its own PRs (part A) and GitHub does not let the author approve.
