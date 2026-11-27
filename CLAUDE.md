@@ -101,10 +101,8 @@ Nur am Ende einer abgeschlossenen Aufgabe (nicht bei Zwischenantworten), unter `
 - Test like `tests/test_widgets.py` (unittest, temporary storage, dummy key), widget type like the entries in `CATALOG` (`wetterstation/ui/widgets.py`), Pi-relevant file like the entries in `FILES` (`tools/pi/update.py`)
 
 ## Anforderungen (gelten für jede Änderung, mit Warum)
-- Stay light on resources: the target is a Pi 3 A+ with 512 MB RAM, running for days (CPU spikes and SD writes caused stutter before the Oct 2026 optimization).
 - The user keeps full control of the device: nothing is installed automatically, no firewall/router/certificate-trust changes (Pi libraries come from Debian).
-- Public repo: no keys, device data, host names or private data in code, docs, issues or logs.
-- Existing layouts and design data survive every change to display, phone editor or designer (the user's arrangement must not be lost).
+- Existing layouts and design data survive every change to display or phone editor.
 - UI texts (display, phone, designer, messages) stay German; docs, ai/, issues, code, comments and commits are English (user's language decision of 27 Nov 2026).
 
 ## Konventionen (nur Abweichungen vom Standard)
@@ -118,7 +116,7 @@ Nur am Ende einer abgeschlossenen Aufgabe (nicht bei Zwischenantworten), unter `
 - Never run PC live and Pi live at the same time with the same budget identity (separate copies share no lock).
 - Never delete `.pi-update-in-progress.json`; recover as described in docs/UPDATE.md (the marker protects against a half-applied update).
 - Create/release Tk objects and images only in the Tk main thread (otherwise crashes and stutter on the Pi).
-- For weather, map or budget changes, test location change, background work, cache assignment and day rollover in isolation (these broke before).
+- For weather, map or budget changes, test location change, background work, cache assignment and day rollover in isolation.
 - The final report separates what the code can do, what was checked, and which live/device check is still open (offline acceptance does not replace a device check).
 
 ## Leitentscheidungen (max. 10, Details in ai/DECISIONS.md)

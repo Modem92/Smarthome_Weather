@@ -3,7 +3,7 @@
 Carried over on 27.11.2026 from PROJEKTPLAN.md, AGENTS.md, the old CLAUDE.md and docs/ (original wording in the Git history, commit `bbc838e`).
 
 ## 2026-11-27: Repository language English, UI stays German
-- Decision: docs, ai/, CLAUDE.md part B, GitHub issues and Windows starter file names are English (`Start weather station.cmd`, `Design weather station.cmd`, `Widget demo.cmd`, `Update Pi.cmd`, `Set up SSH once.cmd`). UI texts on display, phone and designer stay German. Section headings of CLAUDE.md part B stay German because part A refers to them by name.
+- Decision: docs, ai/, CLAUDE.md part B, GitHub issues and Windows starter file names are English (`Start weather station.cmd`, `Design weather station.cmd`, `Widget demo.cmd`, `Update Pi.cmd`, `Set up SSH once.cmd`). UI texts on display, phone and designer stay German. Section headings of CLAUDE.md part B and ai/STATUS.md stay German (with English gloss in STATUS) because part A refers to them by name.
 - Why: user request, matching the workflow rule "code, comments, commits in English"; the users of the device read German.
 - Rejected: translating UI texts too (not wanted); keeping German starter names (user accepted that existing shortcuts break).
 - Status: valid
