@@ -98,7 +98,7 @@ Nur am Ende einer abgeschlossenen Aufgabe (nicht bei Zwischenantworten), unter `
 - Test wie `tests/test_widgets.py` (unittest, temporärer Speicher, Dummy-Schlüssel), Widgettyp wie die Einträge in `CATALOG` (`wetterstation/ui/widgets.py`), Pi-relevante Datei wie die Einträge in `FILES` (`tools/pi/update.py`)
 
 ## Konventionen (nur Abweichungen vom Standard)
-- Doku, UI-Texte und Commit-Texte bisher auf Deutsch; Code-Bezeichner Englisch.
+- Doku und UI-Texte auf Deutsch; Code, Kommentare und Commit-Messages Englisch.
 - Jede Datei, die auf den Pi muss, steht in `FILES` in `tools/pi/update.py`; entfernte Pi-Dateien kommen in `RETIRED_FILES` (sonst bricht der Paketbau bzw. bleiben Altdateien liegen).
 - Private Daten (Einstellungen, Schlüssel, Zertifikate, Caches, Zähler, Layouts) nur unter `private/`, Pfade über `paths.py`.
 

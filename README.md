@@ -49,7 +49,8 @@ Verknüpfungen erhalten. Programmcode liegt in den zugehörigen Unterordnern.
 - [Pi-Update und Wiederherstellung](docs/UPDATE.md)
 - [Struktur und Entwicklung](docs/STRUCTURE.md)
 - [Designer](docs/DESIGNER.md)
-- Entscheidungen mit Begründung: [ai/DECISIONS.md](ai/DECISIONS.md), aktueller Stand: [ai/STATUS.md](ai/STATUS.md)
+- Entscheidungen mit Begründung und aktueller Stand (nur im Repository, nicht auf dem Pi):
+  [ai/DECISIONS.md](ai/DECISIONS.md), [ai/STATUS.md](ai/STATUS.md)
 
 Python 3.11 oder neuer mit Tkinter ist erforderlich. `requirements.txt` beziehungsweise
 `pyproject.toml` beschreiben die Entwicklungsbibliotheken. Die bestehende Pi-Installation
