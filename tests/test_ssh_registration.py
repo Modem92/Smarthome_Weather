@@ -102,19 +102,31 @@ class SSHRegistrationTests(unittest.TestCase):
         source = (root / 'tools/pi/register_ssh_key.py').read_text(encoding='utf-8')
         payload.write_text(source, encoding='utf-8')
         quote = lambda value: "'" + str(value).replace("'", "''") + "'"
+        encodings = folder / 'encodings.txt'
+        # Force the UTF-8-with-BOM console state that made PowerShell 5.1 prepend U+FEFF,
+        # independent of the code page of the console running the tests.
         harness.write_text("$ErrorActionPreference='Stop'\n. " + quote(root / 'windows/ssh_registration.ps1') + '\n'
+                           '[Console]::InputEncoding=[Text.Encoding]::UTF8; $global:OutputEncoding=[Text.Encoding]::UTF8\n'
+                           '$before=[Console]::InputEncoding.GetPreamble().Length.ToString()+"/"+$global:OutputEncoding.WebName\n'
                            '$script=Get-Content -LiteralPath ' + quote(payload) + ' -Raw -Encoding UTF8\n'
                            'Invoke-WetterstationKeyRegistration -Target pi@192.0.2.5 -PublicBase64 ' + quote(self.encoded)
                            + ' -RemoteScript $script -SshExecutable ' + quote(sys.executable)
                            + ' -PrefixArguments @(' + quote(sink) + ',' + quote(observed) + ')\n'
-                           'exit $LASTEXITCODE\n', encoding='utf-8')
+                           '$code=$LASTEXITCODE\n'
+                           '$after=[Console]::InputEncoding.GetPreamble().Length.ToString()+"/"+$global:OutputEncoding.WebName\n'
+                           'Set-Content -LiteralPath ' + quote(encodings) + ' -Value ($before+"|"+$after) -Encoding ASCII\n'
+                           'exit $code\n', encoding='utf-8')
         result = subprocess.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass',
                                  '-File', str(harness)], capture_output=True, timeout=30)
         self.assertEqual(result.returncode, 23, result.stderr.decode(errors='replace'))
         actual = json.loads(observed.read_text(encoding='utf-8'))
         self.assertEqual(actual['args'][-1], 'python3 - --key-base64 ' + self.encoded)
         self.assertIn('StrictHostKeyChecking=yes', actual['args'])
+        self.assertFalse(actual['stdin'].startswith('﻿'))
         self.assertEqual(actual['stdin'].replace('\r\n', '\n').rstrip('\n'), source.rstrip('\n'))
+        before, after = encodings.read_text(encoding='ascii').strip().split('|')
+        self.assertEqual(before, '3/utf-8')
+        self.assertEqual(after, before)
         setup = (root / 'windows/setup_ssh.ps1').read_text(encoding='utf-8')
         self.assertIn('Invoke-WetterstationKeyRegistration -Target', setup)
         self.assertNotIn('python3 -c', setup)
