@@ -2,6 +2,12 @@
 
 Carried over on 27.11.2026 from PROJEKTPLAN.md, AGENTS.md, the old CLAUDE.md and docs/ (original wording in the Git history, commit `bbc838e`).
 
+## 2026-11-27: Ruleset "Protect main" on GitHub
+- Decision: main only changes via pull request (no required approval), no force-push, no deletion, squash merge only; branches are deleted after merge. CI as a required check follows with #12.
+- Why: user request; matches part A (never push to main, never force-push). No required approval because Claude merges its own PRs (part A) and GitHub does not let the author approve.
+- Rejected: required approval (would block merging by Claude); classic branch protection (rulesets are the current GitHub mechanism).
+- Status: valid
+
 ## 2026-11-27: Repository language English, UI stays German
 - Decision: docs, ai/, CLAUDE.md part B, GitHub issues and Windows starter file names are English (`Start weather station.cmd`, `Design weather station.cmd`, `Widget demo.cmd`, `Update Pi.cmd`, `Set up SSH once.cmd`). UI texts on display, phone and designer stay German. Section headings of CLAUDE.md part B and ai/STATUS.md stay German (with English gloss in STATUS) because part A refers to them by name.
 - Why: user request, matching the workflow rule "code, comments, commits in English"; the users of the device read German.
