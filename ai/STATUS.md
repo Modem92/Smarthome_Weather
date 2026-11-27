@@ -10,7 +10,7 @@
 4. Cleanup: Pi libraries vs. requirements.txt (#9), Pi target in the updater (#10), leftover doc references (#11), double-click crash on another PC (#7).
 
 ## Offene Probleme / Fragen an mich (open problems / questions)
-- Input buttons, power-saving concept and E-Ink connection (draft spec: ai/specs/eink.md) are undecided.
+- Input buttons, power-saving concept and E-Ink connection (draft spec: ai/specs/eink.md) are undecided. E-Ink display is now owned (28.11.2026); Waveshare hardware constraints are in the spec; implementation not approved.
 - OpenWeather account limit of 1000/day is only per the user's statement, never independently verified.
 - Sensors (hardware, protocol) and long-term data storage: no solution chosen.
 - Ideas without approval: automatic page switching (optional), highlighting unusual readings, data analysis, cloud/ML.
