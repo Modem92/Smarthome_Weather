@@ -61,7 +61,7 @@ Bekannte alte Prüfausgaben sind vollständig in
 Windows-Schreibschutz führte beim ersten Entfernen zum Abbruch; der zweite
 Durchlauf prüfte die verbliebenen Dateien gegen dasselbe Archiv und setzte fort.
 Unbekannte Restordner bleiben erhalten. Der zusätzliche Projektplan liegt
-bytegleich im Archiv; abweichende Abschnitte stehen in `PROJECT_HISTORY_ALT.md`.
+bytegleich im Archiv; seine abweichenden Abschnitte sind in `ai/DECISIONS.md` eingeflossen.
 
 Prüfmodus: `python tools/workspace_maintenance.py`. Erst `--apply` verändert etwas.
 Die Optionen `--resume-archive` und `--retire-runtime` unterstützen die abgesicherte

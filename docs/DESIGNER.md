@@ -2,10 +2,10 @@
 
 ## Auftrag vom 27.10.2026
 
-Verbindliche Grundlage ist der im Chat abgestimmte Plan „Wetterstation-Designer
-mit PC-Gestaltung und Handy-Anordnung“, unverändert unter `DESIGNER_SPEC.md`.
-Die freigegebene grafische Erweiterung steht unverändert unter
-`GRAPHICAL_DESIGNER_SPEC.md` und ergänzt diesen Auftrag.
+Grundlage war der im Chat abgestimmte Plan „Wetterstation-Designer mit
+PC-Gestaltung und Handy-Anordnung“ samt grafischer Erweiterung. Beide sind
+umgesetzt; die Architekturentscheidungen stehen in `ai/DECISIONS.md`, der
+ursprüngliche Wortlaut in der Git-Historie (Commit `bbc838e`).
 Die Umsetzung erfolgt lokal und offline;
 neue reale Wetterabrufe und die erste Pi-Übernahme sind gesondert abzunehmen.
 
@@ -142,7 +142,9 @@ Nur der Konfigurator benötigt zusätzlich `requirements-designer.txt`
 (PySide6-Essentials). Der Starter verwendet die vorhandene Projekt-Pythonumgebung;
 fehlende Bibliotheken werden gemeldet und niemals automatisch installiert.
 Für diese lokale Entwicklung liegen die Qt-Bibliotheken isoliert unter
-`build/designer-runtime/`. Dieser Ordner wird nicht in Pi-Pakete übernommen.
+`%USERPROFILE%/AppData/Local/Wetterstation/designer-runtime` (außerhalb OneDrive,
+siehe `tools/dev_paths.py`; `build/designer-runtime/` ist nur noch Rückfall).
+Dieser Ordner wird nicht in Pi-Pakete übernommen.
 Auf weiteren PCs die Zusatzbibliotheken ausdrücklich in der gewünschten lokalen
 Pythonumgebung installieren, vorzugsweise der bestehenden Umgebung unter
 `%LOCALAPPDATA%/Wetterstation/venv`. Die Anzeige auf dem Pi benötigt kein Qt.

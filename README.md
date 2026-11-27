@@ -48,9 +48,8 @@ Verknüpfungen erhalten. Programmcode liegt in den zugehörigen Unterordnern.
 - [Ordnerbereinigung, Ressourcen und Browser-Ruhemodus](docs/OPTIMIZATION.md)
 - [Pi-Update und Wiederherstellung](docs/UPDATE.md)
 - [Struktur und Entwicklung](docs/STRUCTURE.md)
-- [Funktionsstand und Grenzen der Abnahme](docs/FEATURE_STATUS.md)
-- [Projektentscheidungen](PROJEKTPLAN.md)
-- [Frühere ausführliche Funktionsdokumentation](docs/HISTORY.md)
+- [Designer](docs/DESIGNER.md)
+- Entscheidungen mit Begründung: [ai/DECISIONS.md](ai/DECISIONS.md), aktueller Stand: [ai/STATUS.md](ai/STATUS.md)
 
 Python 3.11 oder neuer mit Tkinter ist erforderlich. `requirements.txt` beziehungsweise
 `pyproject.toml` beschreiben die Entwicklungsbibliotheken. Die bestehende Pi-Installation
@@ -62,3 +61,23 @@ separat beschrieben und benötigen einen vorhandenen Browser mit Playwright.
 
 Diese öffentliche Fassung verwendet Potsdam als Beispielort. Eigene Einstellungen
 werden lokal unter `private/` abgelegt. Die Widget-Demo verwendet Beispieldaten.
+
+## Datenquellen und Lizenzen
+
+- **Grundkarte Deutschland:** [basemap.de-WMS](https://sgx.geodatenzentrum.de/wms_basemapde?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.1.1),
+  Layer `de_basemapde_web_raster_farbe`. Lizenz [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
+  Quellenvermerk „© GeoBasis-DE / BKG 2026 · CC BY 4.0“; [Nutzungsbedingungen](https://basemap.de/produkte-und-dienste/web-raster/).
+- **Radar Deutschland:** [DWD-WMS](https://maps.dwd.de/geoserver/wms?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0)
+  (WN-Radarkomposit), Quellenvermerk „Datenbasis: Deutscher Wetterdienst“; siehe
+  [DWD-Geodienste](https://www.dwd.de/DE/leistungen/geodienste/help/nutzung_geodienste.html?lsbId=621762)
+  und [WN-Produktsteckbrief](https://www.dwd.de/DE/leistungen/radarprodukte/radarkomposit_wn_hdf5.pdf?__blob=publicationFile&v=4).
+- **Ausland:** Kacheln von OpenStreetMap ([Mitwirkende und Lizenz](https://www.openstreetmap.org/copyright),
+  [Kachelnutzung](https://operations.osmfoundation.org/policies/tiles/)) und Radar von
+  [RainViewer](https://www.rainviewer.com/api/weather-maps-api.html). Internationale Karten zeigen immer
+  „© OpenStreetMap-Mitwirkende · RainViewer“. Der Client meldet sich als `WetterstationPreview/2.0`,
+  nutzt den HTTP-Cache (ohne Frischeangabe mindestens sieben Tage) und lädt nur benötigte Kacheln bei Zoom 7.
+- **Wetter:** [OpenWeather One Call 4.0](https://openweathermap.org/api/one-call-4) und
+  [Geocoding](https://openweathermap.org/api/geocoding-api) mit eigenem Schlüssel.
+
+Die Quellenzeile der deutschen Karte ist in der Anzeige auf Nutzerwunsch ausgeblendet; die Angaben
+stehen hier. Eine Ausnahme von den Nutzungsbedingungen ist damit nicht bestätigt.

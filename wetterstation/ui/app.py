@@ -1071,7 +1071,7 @@ def main() -> None:
     from wetterstation.lifecycle import AppSession
     project = project_root(__file__)
     if (project / ".pi-update-in-progress.json").exists():
-        print("Unvollstaendiges Pi-Update. Bitte zuerst nach PI_UPDATE.md wiederherstellen.", file=sys.stderr)
+        print("Unvollstaendiges Pi-Update. Bitte zuerst nach docs/UPDATE.md wiederherstellen.", file=sys.stderr)
         raise SystemExit(1)
     # Keep Tk's coordinates aligned with actual pixels on high-DPI Windows
     # displays so the preview scales to the visible window rather than past it.
