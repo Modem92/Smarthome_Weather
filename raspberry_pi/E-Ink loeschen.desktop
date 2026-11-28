@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=E-Ink löschen
+Comment=E-Ink-Display mehrmals weiß löschen (je 3 Minuten Abstand)
+Exec=sh -c 'exec python3 "$HOME/eink-tools/eink_maintenance.py" --pause'
+Icon=edit-clear
+Terminal=true
+StartupNotify=false
+Categories=Utility;

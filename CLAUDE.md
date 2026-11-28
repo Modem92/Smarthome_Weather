@@ -105,6 +105,7 @@ Nur am Ende einer abgeschlossenen Aufgabe (nicht bei Zwischenantworten), unter `
 ## Anforderungen (gelten für jede Änderung, mit Warum)
 - The user keeps full control of the device: nothing is installed automatically, no firewall/router/certificate-trust changes (Pi libraries come from Debian).
 - Existing layouts and design data survive every change to display or phone editor.
+- E-Ink panel (Waveshare 7.3inch e-Paper HAT (E)): at least 3 minutes between two refreshes, at least one refresh every 24 h, full refresh only, sleep/power-off after every refresh (otherwise permanent panel damage; user's requirement of 28 Nov 2026).
 - UI texts (display, phone, designer, messages) stay German; docs, ai/, issues, code, comments and commits are English (user's language decision of 27 Nov 2026).
 
 ## Konventionen (nur Abweichungen vom Standard)

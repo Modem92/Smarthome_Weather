@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=E-Ink einlagern
+Comment=E-Ink-Display löschen und stromlos für die Lagerung vorbereiten
+Exec=sh -c 'exec python3 "$HOME/eink-tools/eink_maintenance.py" --storage --pause'
+Icon=document-save
+Terminal=true
+StartupNotify=false
+Categories=Utility;
