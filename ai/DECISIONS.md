@@ -2,6 +2,12 @@
 
 Carried over on 27.11.2026 from PROJEKTPLAN.md, AGENTS.md, the old CLAUDE.md and docs/ (original wording in the Git history, commit `bbc838e`).
 
+## 2026-11-28: Keep Python/Tk for 24/7 operation, optimise the platform instead
+- Decision: no rewrite in another language. Resource work targets (1) the display: E-Ink without backlight, rendered with Pillow straight to the panel so the Pi can run without a desktop session; (2) idle wakeups of the display process (#18); (3) a long-term RSS/CPU/SD-write measurement on the Pi as part of #5.
+- Why: measured idle cost of the app is ~1 % of one core and ~66 MB RSS (docs/OPTIMIZATION.md) on a 512 MB Pi 3 A+; the power draw is dominated by the board itself, the LCD backlight and the desktop session, not by the interpreter. Python matches the Waveshare driver (Python) and keeps one codebase for PC and Pi with 389 tests. A rewrite would save a few tens of MB and well under 1 W·h/day while risking layout compatibility.
+- Rejected: Rust/Go/C rewrite (8,000+ lines plus tests, PC designer and phone editor share the model; saving negligible); MicroPython/microcontroller (no Tk/Pillow/HTTPS pairing as built); Qt on the Pi (heavier than Tk).
+- Status: valid
+
 ## 2026-11-28: E-Ink maintenance tool standalone, not in the Pi package
 - Decision: `raspberry_pi/eink_maintenance.py` is copied by hand to `~/eink-tools/` on the Pi with two desktop launchers ("E-Ink löschen", "E-Ink einlagern"); it is not listed in `FILES` of `tools/pi/update.py`. It uses the Waveshare driver from the user's `~/e-Paper` clone. Each clear pass is init → full refresh → deep sleep (power off), passes wait ≥180 s apart (timestamp persisted across runs and written before the refresh starts), the first pass always waits the full 180 s (another program may have refreshed without a timestamp), and the tool refuses to run, or aborts before the next pass, while another process holds `/dev/spidev0.0` or the "E-Ink Bilderrahmen" program runs. If `sleep()` fails, `epdconfig.module_exit()` switches the HAT off; SIGTERM/SIGHUP (shutdown, closed terminal) are turned into Ctrl+C so cleanup always runs.
 - Why: the user asked for a desktop tool now; E-Ink in the weather station is not approved, and the tool must work independently of the program folder (e.g. during a broken update). Waveshare recommends "clear several times" but also ≥180 s between refreshes; the user made the 3-minute rule mandatory, so safety wins over speed. Sleeping between passes keeps the panel off high voltage during the waits.

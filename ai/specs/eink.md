@@ -10,6 +10,7 @@ Adapt the program to the "Waveshare 7.3inch E Ink Spectra 6 (E6) Full Color E-Pa
 - Display driver (driver, library, connection to the Pi)
 - Refresh behavior (refresh interval, partial/full refresh) and interplay with the five-minute grid
 - Relation to the open questions about input buttons and the power-saving concept
+- Resource hint (24/7 requirement): with E-Ink, render with Pillow directly to the panel and run the Pi without a desktop session (no X/Wayland, no Tk window); this saves more RAM/power than any language change (see DECISIONS.md, 28.11.2026).
 
 ## Hardware constraints (Waveshare precautions, given by the user on 28.11.2026)
 The user now owns the display (28.11.2026): Waveshare 7.3inch e-Paper HAT (E), 800×480, on the Raspberry Pi 3 Model A+. Waveshare driver `epd7in3e` is in the user's clone `~/e-Paper` on the Pi (not part of our package). Implementation in the weather station is still not approved.
