@@ -1,3 +1,4 @@
+import contextlib
 import importlib.util
 import tempfile
 import unittest
@@ -22,12 +23,13 @@ class FakeClock:
 
 
 class FakeEPD:
-    def __init__(self, clock, fail_clear=False, init_result=0):
+    def __init__(self, clock, fail_clear=False, init_result=0, fail_sleep=False):
         self.clock = clock
         self.calls = []
         self.clear_times = []
         self.fail_clear = fail_clear
         self.init_result = init_result
+        self.fail_sleep = fail_sleep
 
     def init(self):
         self.calls.append("init")
@@ -42,6 +44,8 @@ class FakeEPD:
 
     def sleep(self):
         self.calls.append("sleep")
+        if self.fail_sleep:
+            raise OSError("SPI closed")
 
 
 class EinkMaintenanceTests(unittest.TestCase):
@@ -52,9 +56,10 @@ class EinkMaintenanceTests(unittest.TestCase):
         self.clock = FakeClock()
         self.messages = []
 
-    def make(self, epd):
+    def make(self, epd, **kwargs):
         return eink.Maintenance(epd, state_file=self.state, clock=self.clock.time,
-                                sleep=self.clock.sleep, report=self.messages.append)
+                                sleep=self.clock.sleep, report=self.messages.append,
+                                shield=contextlib.nullcontext, **kwargs)
 
     def test_each_pass_is_init_clear_sleep(self):
         epd = FakeEPD(self.clock)
@@ -67,12 +72,19 @@ class EinkMaintenanceTests(unittest.TestCase):
         gaps = [b - a for a, b in zip(epd.clear_times, epd.clear_times[1:])]
         self.assertTrue(all(gap >= eink.MIN_REFRESH_INTERVAL_S for gap in gaps), gaps)
 
-    def test_respects_refresh_from_an_earlier_run(self):
-        eink.write_last_refresh(self.state, self.clock.now - 60)
+    def test_first_pass_waits_full_interval_without_state(self):
+        # Another program may have refreshed just before without a timestamp.
         epd = FakeEPD(self.clock)
         start = self.clock.now
         self.make(epd).run(1)
-        self.assertGreaterEqual(epd.clear_times[0] - 25 - start, 120)
+        self.assertGreaterEqual(epd.clear_times[0] - 25 - start, eink.MIN_REFRESH_INTERVAL_S)
+
+    def test_respects_recent_refresh_from_an_earlier_run(self):
+        eink.write_last_refresh(self.state, self.clock.now + 100)  # e.g. clock adjusted
+        epd = FakeEPD(self.clock)
+        start = self.clock.now
+        self.make(epd).run(1)
+        self.assertGreaterEqual(epd.clear_times[0] - 25 - start, eink.MIN_REFRESH_INTERVAL_S)
 
     def test_clock_moved_backwards_waits_full_interval(self):
         self.assertEqual(eink.seconds_until_refresh_allowed(2000.0, 1000.0), 180.0)
@@ -84,7 +96,39 @@ class EinkMaintenanceTests(unittest.TestCase):
         with self.assertRaises(OSError):
             self.make(epd).run(2)
         self.assertEqual(epd.calls, ["init", "clear", "sleep"])
-        self.assertIsNone(eink.read_last_refresh(self.state))
+        # An aborted refresh still counts for the 3-minute rule.
+        self.assertIsNotNone(eink.read_last_refresh(self.state))
+
+    def test_failed_sleep_falls_back_to_power_off(self):
+        epd = FakeEPD(self.clock, fail_sleep=True)
+        powered_off = []
+        self.make(epd, power_off=lambda: powered_off.append(True)).run(1)
+        self.assertEqual(powered_off, [True])
+
+    def test_failed_sleep_and_power_off_is_reported(self):
+        def broken():
+            raise OSError("gpio")
+        epd = FakeEPD(self.clock, init_result=-1, fail_sleep=True)
+        with self.assertRaises(eink.PowerOffFailed):
+            self.make(epd, power_off=broken).run(1)
+
+    def test_busy_display_aborts_before_next_pass(self):
+        epd = FakeEPD(self.clock)
+        answers = iter([[], [4711]])
+        with self.assertRaises(eink.DisplayBusy):
+            self.make(epd, busy_check=lambda: next(answers)).run(3)
+        self.assertEqual(epd.calls, ["init", "clear", "sleep"])
+
+    def test_exit_signals_become_keyboard_interrupt(self):
+        with self.assertRaises(KeyboardInterrupt):
+            eink._raise_interrupt(15, None)
+
+    def test_interrupts_deferred_restores_handlers(self):
+        import signal
+        before = signal.getsignal(signal.SIGINT)
+        with eink.interrupts_deferred():
+            self.assertEqual(signal.getsignal(signal.SIGINT), signal.SIG_IGN)
+        self.assertEqual(signal.getsignal(signal.SIGINT), before)
 
     def test_failed_init_still_sleeps(self):
         epd = FakeEPD(self.clock, init_result=-1)
